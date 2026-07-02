@@ -7,13 +7,12 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      --primary: #FF3D00;
+      --primary: #D4AF37;     /* Oltin */
       --dark: #0F0F0F;
-      --accent: #FFD600;
-      --bg: #1A1A1A;
-      --card: #252525;
-      --text: #EEEEEE;
-      --text-light: #AAAAAA;
+      --red: #B71C1C;
+      --bg: #121212;
+      --card: #1E1E1E;
+      --text: #F5F5F5;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -21,87 +20,81 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: 85px;
+      padding-bottom: 90px;
     }
     .header {
       background: var(--dark);
-      color: white;
-      padding: 16px 18px;
+      padding: 18px;
       position: sticky;
       top: 0;
       z-index: 100;
       display: flex;
       align-items: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
     .logo {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 900;
-      letter-spacing: -1px;
+      color: var(--primary);
     }
 
     .tabs {
       display: flex;
       background: var(--dark);
-      padding: 12px 16px;
-      gap: 10px;
+      padding: 14px 16px;
+      gap: 12px;
       overflow-x: auto;
       position: sticky;
-      top: 60px;
+      top: 66px;
       z-index: 99;
     }
     .tab {
-      padding: 10px 20px;
-      background: #2A2A2A;
-      border-radius: 30px;
+      padding: 11px 22px;
+      background: #252525;
+      border-radius: 50px;
       white-space: nowrap;
       font-weight: 600;
-      font-size: 14.5px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: 0.3s;
     }
     .tab.active {
       background: var(--primary);
-      color: white;
-      box-shadow: 0 4px 12px rgba(255, 61, 0, 0.4);
+      color: black;
+      font-weight: 700;
     }
 
     .products {
-      padding: 16px;
+      padding: 20px 16px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 20px;
     }
     .product-card {
       background: var(--card);
-      border-radius: 22px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-      transition: all 0.2s;
-    }
-    .product-card:active {
-      transform: scale(0.95);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
     .product-img {
-      height: 160px;
-      background: linear-gradient(135deg, #2A2A2A, #1F1F1F);
+      height: 170px;
+      background: #1C1C1C;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 72px;
+      font-size: 78px;
     }
     .product-info {
       padding: 16px;
     }
     .product-name {
+      font-size: 16.5px;
       font-weight: 700;
-      font-size: 16px;
       margin-bottom: 8px;
     }
     .product-price {
       color: var(--primary);
+      font-size: 18px;
       font-weight: 800;
-      font-size: 17px;
     }
 
     .bottom-nav {
@@ -110,27 +103,24 @@
       left: 0;
       right: 0;
       background: var(--dark);
-      border-top: 1px solid #333;
+      padding: 12px 0 10px;
       display: flex;
       justify-content: space-around;
-      padding: 10px 0 8px;
-      z-index: 1000;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
     }
     .nav-item {
       text-align: center;
-      font-size: 12.5px;
       color: #AAAAAA;
-      cursor: pointer;
+      font-size: 13px;
     }
     .nav-item.active {
       color: var(--primary);
-      font-weight: 700;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <div class="logo">🍔 BoomBurger</div>
+    <div class="logo">BOOMBURGER</div>
   </div>
 
   <div class="tabs" id="categories"></div>
@@ -145,11 +135,39 @@
 
   <script>
     const PRODUCTS = [
-      {id:1, name:"Classic Burger", price:35000, emoji:"🍔"},
-      {id:2, name:"Double Cheese", price:48000, emoji:"🍔"},
-      {id:3, name:"Spicy Chicken", price:42000, emoji:"🐔"},
-      {id:4, name:"Large Fries", price:18000, emoji:"🍟"},
+      {id:1, name:"Classic BoomBurger", price:45000, emoji:"🍔"},
+      {id:2, name:"Double Cheese", price:58000, emoji:"🍔"},
+      {id:3, name:"Spicy Chicken", price:52000, emoji:"🐔"},
+      {id:4, name:"Crispy Fries", price:22000, emoji:"🍟"},
     ];
 
     function renderCategories() {
-      const cats = ["Barchasi
+      const cats = ["Barchasi", "Burgerlar", "Tovuq", "Sides", "Ichimliklar", "Setlar"];
+      let html = '';
+      cats.forEach((cat, i) => {
+        html += `<div class="tab ${i===0 ? 'active' : ''}">${cat}</div>`;
+      });
+      document.getElementById('categories').innerHTML = html;
+    }
+
+    function renderProducts() {
+      let html = '';
+      PRODUCTS.forEach(p => {
+        html += `
+          <div class="product-card">
+            <div class="product-img">${p.emoji}</div>
+            <div class="product-info">
+              <div class="product-name">${p.name}</div>
+              <div class="product-price">${p.price.toLocaleString()} so'm</div>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('products').innerHTML = html;
+    }
+
+    renderCategories();
+    renderProducts();
+  </script>
+</body>
+</html>
