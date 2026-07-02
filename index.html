@@ -718,12 +718,29 @@ function selectPayment(type) {
 }
 
 function submitOrder() {
-  const phone = document.getElementById('phoneInput').value.replace(/\D/g,'');
-  if (phone.length < 9) {
-    document.getElementById('phoneInput').style.borderColor = 'red';
-    document.getElementById('phoneInput').focus();
-    return;
-  }
+ // Debug uchun
+console.log("Yuborilayotgan buyurtma:", {
+  order: orderNum, 
+  total, 
+  items: cart,
+  delivery: deliveryType, 
+  payment: paymentType,
+  phone: document.getElementById('phoneInput').value
+});
+
+if (window.Telegram?.WebApp) {
+  window.Telegram.WebApp.sendData(JSON.stringify({
+    order: orderNum, 
+    total, 
+    items: cart,
+    delivery: deliveryType, 
+    payment: paymentType,
+    phone: document.getElementById('phoneInput').value
+  }));
+  console.log("sendData yuborildi!");
+} else {
+  console.log("Telegram.WebApp topilmadi!");
+}
   const orderNum = '#BB' + String(Math.floor(Math.random()*9000)+1000);
   const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
   orders.unshift({
