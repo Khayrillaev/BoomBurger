@@ -140,28 +140,31 @@ async function checkShift() {
 }
 
 async function loadOrders() {
+  const container = document.getElementById('ordersList');
+  container.innerHTML = "Yuklanmoqda...";
+
   try {
     const {data, error} = await db
       .from('orders')
       .select('*')
       .order('created_at', {ascending: false});
 
+    console.log("✅ Supabase dan kelayotgan buyurtmalar:", data);  // Bu juda muhim!
+
     if (error) {
-      console.error("Xato:", error);
-      document.getElementById('ordersList').innerHTML = `<p style="color:red">Xato: ${error.message}</p>`;
+      container.innerHTML = `<p style="color:red">Xato: ${error.message}</p>`;
+      console.error(error);
       return;
     }
 
     allOrders = data || [];
-    console.log("Yuklangan buyurtmalar:", allOrders); // Debug uchun
-
     if (allOrders.length === 0) {
-      document.getElementById('ordersList').innerHTML = "<p style='color:#aaa;padding:20px'>Hozircha buyurtma yo'q</p>";
+      container.innerHTML = `<p style="color:#aaa">Hozircha buyurtma yo'q. Bot orqali yangi buyurtma yuboring.</p>`;
     } else {
       renderOrders(allOrders);
     }
   } catch(e) {
-    document.getElementById('ordersList').innerHTML = `<p style="color:red">Yuklashda xatolik: ${e.message}</p>`;
+    container.innerHTML = `<p style="color:red">Xatolik: ${e.message}</p>`;
   }
 }
 
