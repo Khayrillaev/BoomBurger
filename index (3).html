@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>BoomBurger</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --black:#1A1A1A;
+    --gold:#E53935;
+    --gold-dark:#C62828;
+    --cream:#242424;
+    --white:#FFFFFF;
+    --gray:#2C2C2C;
+    --gray2:#333333;
+    --text:#FFFFFF;
+    --text2:#9E9E9E;
+    --red:#E53935;
+  }
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;background-color:#1A1A1A;background-image:url('https://khayrillaev.github.io/BoomBurger/videoframe_2032.png');background-size:30%;background-position:center top;background-repeat:no-repeat;}
+  body::after{content:'';position:fixed;inset:0;background:rgba(26,26,26,0.93);z-index:0;pointer-events:none}
+  body > *{position:relative;z-index:1}
+
+  /* HEADER */
+  .header{background:#1E1E1E;padding:14px 16px 12px;position:sticky;top:0;z-index:100}
+  .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-icon{width:40px;height:40px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+  .logo-text{color:var(--white)}
+  .logo-text strong{font-size:18px;font-weight:800;letter-spacing:0.5px;display:block}
+  .logo-text span{font-size:11px;color:#aaa;letter-spacing:1px;text-transform:uppercase}
+  .lang-switch{display:flex;background:#222;border-radius:20px;overflow:hidden;border:1px solid #333}
+  .lang-btn{padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#888;transition:all .2s;border:none;background:transparent}
+  .lang-btn.active{background:var(--gold);color:var(--black);border-radius:20px}
+  .search-bar{background:#2C2C2C;border-radius:10px;display:flex;align-items:center;gap:8px;padding:9px 12px}
+  .search-bar input{background:transparent;border:none;outline:none;color:var(--white);font-size:14px;flex:1}
+  .search-bar input::placeholder{color:#666}
+  .search-icon{color:#666;font-size:16px}
+
+  /* CONTACT ROW */
+  .contact-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px}
+  .contact-card{background:#242424;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+  .contact-card .icon{font-size:18px}
+  .contact-card .info{flex:1}
+  .contact-card .info .label{font-size:11px;color:var(--text2);font-weight:500}
+  .contact-card .info .val{font-size:12px;font-weight:700;color:var(--white)}
+
+  /* TABS */
+  .tabs{display:flex;background:#1E1E1E;border-bottom:2px solid #333;position:sticky;top:80px;z-index:99}
+  .tab{flex:1;padding:12px;text-align:center;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+  .tab.active{color:var(--white);border-bottom-color:var(--red)}
+
+  /* SPECIAL OFFER */
+  .special-banner{margin:12px 16px;background:#242424;border-radius:16px;overflow:hidden;position:relative;min-height:120px;display:flex;align-items:center}
+  .special-banner .img{width:130px;height:120px;object-fit:cover;flex-shrink:0}
+  .special-banner .img-placeholder{width:130px;height:120px;background:linear-gradient(135deg,#2a2a2a,#1a1a1a);display:flex;align-items:center;justify-content:center;font-size:48px;flex-shrink:0}
+  .special-content{padding:14px;flex:1}
+  .special-badge{background:var(--red);color:var(--white);font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:6px;letter-spacing:0.5px}
+  .special-title{color:var(--white);font-size:15px;font-weight:800;line-height:1.3;margin-bottom:4px}
+  .special-desc{color:#9E9E9E;font-size:11px;margin-bottom:8px}
+  .special-price{color:var(--red);font-size:16px;font-weight:800}
+  .special-btn{background:var(--red);color:var(--white);border:none;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;display:block}
+
+  /* CATEGORIES */
+  .categories-wrap{padding:0 16px 4px;overflow-x:auto;display:flex;gap:8px;scrollbar-width:none}
+  .categories-wrap::-webkit-scrollbar{display:none}
+  .cat-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex-shrink:0}
+  .cat-icon{width:52px;height:52px;border-radius:14px;background:#2C2C2C;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,.3);transition:all .2s;border:2px solid transparent}
+  .cat-item.active .cat-icon{background:#E53935;border-color:#E53935}
+  .cat-item.active .cat-icon span{filter:none}
+  .cat-label{font-size:11px;font-weight:600;color:var(--text2);white-space:nowrap}
+  .cat-item.active .cat-label{color:var(--white);font-weight:700}
+
+  /* SECTION TITLE */
+  .section-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px}
+  .section-title{font-size:16px;font-weight:800;color:var(--white)}
+  .section-count{font-size:13px;color:var(--text2)}
+
+  /* PRODUCTS GRID */
+  .products-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;padding-bottom:100px}
+  .product-card{background:#242424;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer;position:relative;transition:transform .15s}
+  .product-card:active{transform:scale(0.97)}
+  .product-card.in-cart{border:2px solid var(--red)}
+  .product-img{width:100%;height:120px;object-fit:cover;background:#2C2C2C;display:flex;align-items:center;justify-content:center;font-size:50px}
+  .product-img-emoji{width:100%;height:120px;display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(135deg,#2C2C2C,#242424)}
+  .cart-badge{position:absolute;top:8px;right:8px;background:var(--red);color:var(--white);font-size:11px;font-weight:800;width:22px;height:22px;border-radius:50%;display:none;align-items:center;justify-content:center}
+  .product-card.in-cart .cart-badge{display:flex}
+  .product-info{padding:10px}
+  .product-name{font-size:13px;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:3px}
+  .product-desc{font-size:11px;color:var(--text2);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .product-bottom{display:flex;align-items:center;justify-content:space-between}
+  .product-price{font-size:13px;font-weight:800;color:var(--red)}
+  .add-btn{width:28px;height:28px;background:var(--red);color:var(--white);border:none;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;transition:background .2s}
+  .add-btn:active{background:#C62828;color:var(--white)}
+
+  /* BOTTOM CART BAR */
+  .cart-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:transparent;z-index:200;pointer-events:none;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .cart-bar.visible{transform:translateY(0);pointer-events:all}
+  .cart-bar-btn{background:var(--red);color:var(--white);border:none;border-radius:14px;width:100%;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 4px 20px rgba(229,57,53,.4)}
+  .cart-bar-left{display:flex;align-items:center;gap:10px}
+  .cart-bar-count{background:rgba(0,0,0,.3);color:var(--white);font-size:13px;font-weight:800;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+  .cart-bar-label{font-size:15px;font-weight:700}
+  .cart-bar-price{font-size:15px;font-weight:800;color:var(--white)}
+
+  /* OVERLAY */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;opacity:0;pointer-events:none;transition:opacity .25s}
+  .overlay.visible{opacity:1;pointer-events:all}
+
+  /* BOTTOM SHEET */
+  .bottom-sheet{position:fixed;bottom:0;left:0;right:0;background:#242424;border-radius:20px 20px 0 0;z-index:400;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.2,.64,1);max-height:85vh;overflow-y:auto}
+  .bottom-sheet.open{transform:translateY(0)}
+  .sheet-handle{width:40px;height:4px;background:#444;border-radius:2px;margin:12px auto 0}
+  .sheet-header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 0}
+  .sheet-title{font-size:17px;font-weight:800;color:var(--white)}
+  .sheet-close{width:30px;height:30px;background:#333;border-radius:50%;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+
+  /* SIZE SHEET */
+  .size-product-info{display:flex;align-items:center;gap:12px;padding:12px 16px 16px;border-bottom:1px solid #333}
+  .size-product-img{width:56px;height:56px;border-radius:12px;background:#333;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+  .size-product-name{font-size:15px;font-weight:700;color:var(--white)}
+  .size-product-sub{font-size:12px;color:var(--text2);margin-top:2px}
+  .size-list{padding:12px 16px}
+  .size-option{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;margin-bottom:8px;cursor:pointer;border:2px solid #333;transition:all .2s}
+  .size-option.selected{border-color:var(--red);background:#2C2C2C}
+  .size-option-name{font-size:14px;font-weight:600;color:var(--white)}
+  .size-option-price{font-size:14px;font-weight:800;color:var(--red)}
+  .size-cancel{width:calc(100% - 32px);margin:0 16px 20px;padding:14px;background:#333;color:var(--text2);border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
+
+  /* CART SHEET */
+  .cart-items{padding:12px 16px}
+  .cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #333}
+  .cart-item:last-child{border-bottom:none}
+  .cart-item-img{width:52px;height:52px;border-radius:10px;background:#333;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+  .cart-item-info{flex:1}
+  .cart-item-name{font-size:14px;font-weight:700;margin-bottom:2px;color:var(--white)}
+  .cart-item-size{font-size:12px;color:var(--text2)}
+  .cart-item-price{font-size:13px;font-weight:800;color:var(--red);margin-top:4px}
+  .qty-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .qty-btn{width:28px;height:28px;border-radius:8px;border:none;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+  .qty-minus{background:#333;color:var(--white)}
+  .qty-plus{background:var(--red);color:var(--white)}
+  .qty-num{font-size:15px;font-weight:700;min-width:20px;text-align:center;color:var(--white)}
+  .cart-total-row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:2px solid #333;margin-top:4px}
+  .cart-total-label{font-size:15px;font-weight:600;color:var(--text2)}
+  .cart-total-price{font-size:20px;font-weight:800;color:var(--red)}
+  .cart-checkout-btn{margin:0 16px 20px;width:calc(100% - 32px);background:var(--red);color:var(--white);border:none;padding:15px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+
+  /* ORDER PAGE */
+  .page{position:fixed;inset:0;background:#1A1A1A;z-index:500;transform:translateX(100%);transition:transform .3s ease;overflow-y:auto}
+  .page.open{transform:translateX(0)}
+  .page-header{background:#1E1E1E;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+  .page-back{width:34px;height:34px;background:#333;border-radius:10px;border:none;color:var(--white);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .page-title{font-size:17px;font-weight:800;color:var(--white)}
+  .order-section{background:#242424;border-radius:16px;margin:12px 16px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+  .order-section-label{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+  .order-item-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+  .order-item-row:last-child{margin-bottom:0}
+  .order-item-name{font-size:14px;font-weight:600;flex:1;color:var(--white)}
+  .order-item-sub{font-size:12px;color:var(--text2)}
+  .order-item-price{font-size:14px;font-weight:700;color:var(--white)}
+  .order-total-row{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #333;margin-top:8px}
+  .order-total-label{font-size:15px;font-weight:600;color:var(--white)}
+  .order-total-price{font-size:16px;font-weight:800;color:var(--red)}
+  .phone-input-wrap{border:2px solid #333;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;transition:border-color .2s;background:#1A1A1A}
+  .phone-input-wrap:focus-within{border-color:var(--red)}
+  .phone-input-wrap input{border:none;outline:none;font-size:15px;font-weight:600;flex:1;background:transparent;color:var(--white)}
+  .phone-check{color:#43a047;font-size:16px}
+  .delivery-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .delivery-opt{padding:12px;border-radius:12px;border:2px solid #333;text-align:center;cursor:pointer;transition:all .2s}
+  .delivery-opt.selected{border-color:var(--red);background:#2C2C2C}
+  .delivery-opt .d-icon{font-size:22px;margin-bottom:4px}
+  .delivery-opt .d-label{font-size:13px;font-weight:700;color:var(--white)}
+  .payment-opt{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;border:2px solid #333;margin-bottom:8px;cursor:pointer;transition:all .2s}
+  .payment-opt:last-child{margin-bottom:0}
+  .payment-opt.selected{border-color:var(--red);background:#2C2C2C}
+  .payment-opt .p-icon{font-size:20px}
+  .payment-opt .p-label{font-size:14px;font-weight:600;flex:1;color:var(--white)}
+  .payment-opt .p-check{color:var(--red);font-size:16px;opacity:0}
+  .payment-opt.selected .p-check{opacity:1}
+  .note-input{width:100%;border:2px solid #333;border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;resize:none;outline:none;min-height:70px;transition:border-color .2s;background:#1A1A1A;color:var(--white)}
+  .note-input:focus{border-color:var(--red)}
+  .order-bottom{position:sticky;bottom:0;padding:12px 16px;background:#1A1A1A;border-top:1px solid #333}
+  .order-summary-row{display:flex;justify-content:space-between;margin-bottom:10px}
+  .order-summary-label{font-size:13px;color:var(--text2)}
+  .order-summary-price{font-size:14px;font-weight:700;color:var(--white)}
+  .order-submit-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:15px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+  .order-submit-btn:disabled{opacity:.5;cursor:not-allowed}
+
+  /* SUCCESS */
+  .success-page{position:fixed;inset:0;background:#1A1A1A;z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+  .success-page.show{display:flex}
+  .success-icon{font-size:80px;margin-bottom:20px;animation:bounce .6s ease}
+  @keyframes bounce{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+  .success-title{font-size:24px;font-weight:800;margin-bottom:8px;color:var(--white)}
+  .success-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:8px}
+  .success-order-num{font-size:18px;font-weight:800;color:var(--red);margin-bottom:24px}
+  .success-time{background:#242424;border-radius:14px;padding:14px 20px;margin-bottom:28px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .success-time span{font-size:14px;color:var(--text2)}
+  .success-time strong{font-size:15px;font-weight:700;color:var(--white)}
+  .success-btn{background:var(--red);color:var(--white);border:none;padding:15px 40px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer}
+
+  /* ORDERS TAB */
+  .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center}
+  .empty-icon{font-size:64px;margin-bottom:16px;opacity:.4}
+  .empty-title{font-size:17px;font-weight:700;color:var(--text2);margin-bottom:6px}
+  .empty-sub{font-size:14px;color:#666}
+
+  .no-results{padding:40px;text-align:center;color:var(--text2);font-size:15px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">
+      <div class="logo-icon">🍔</div>
+      <div class="logo-text">
+        <strong>BoomBurger</strong>
+        <span>Fast Food</span>
+      </div>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('uz')">UZ</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Taom qidiring..." oninput="onSearch()"/>
+  </div>
+</div>
+
+<!-- CONTACT ROW -->
+<div class="contact-row">
+  <div class="contact-card">
+    <span class="icon">📞</span>
+    <div class="info">
+      <div class="label" data-uz="Qo'ng'iroq" data-ru="Позвонить">Qo'ng'iroq</div>
+      <div class="val">+998 90 123 45 67</div>
+    </div>
+  </div>
+  <div class="contact-card">
+    <span class="icon">📍</span>
+    <div class="info">
+      <div class="label" data-uz="Manzil" data-ru="Адрес">Manzil</div>
+      <div class="val" data-uz="Xaritada ko'rish" data-ru="На карте">Xaritada ko'rish</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('menu')" id="tab-menu" data-uz="Menyu" data-ru="Меню">Menyu</div>
+  <div class="tab" onclick="switchTab('orders')" id="tab-orders" data-uz="Buyurtmalarim" data-ru="Мои заказы">Buyurtmalarim</div>
+</div>
+
+<!-- MENU TAB -->
+<div id="menu-tab">
+  <!-- SPECIAL BANNER -->
+  <div class="special-banner">
+    <div class="special-content">
+      <div class="special-badge" data-uz="⭐ MAXSUS TAKLIF" data-ru="⭐ СПЕЦПРЕДЛОЖЕНИЕ">⭐ MAXSUS TAKLIF</div>
+      <div class="special-title" data-uz="BoomSet (2 ta burger + fri)" data-ru="BoomSet (2 бургера + фри)">BoomSet (2 ta burger + fri)</div>
+      <div class="special-desc" data-uz="Classic x2, katta kartoshka fri" data-ru="Classic x2, большая картошка фри">Classic x2, katta kartoshka fri</div>
+      <div class="special-price">79,000 so'm</div>
+      <button class="special-btn" onclick="openSizeSheet({id:'set1',name:'BoomSet',emoji:'🎁',desc:'Classic x2, katta kartoshka fri',sizes:[{name:'1 ta set',price:79000}]})" data-uz="Buyurtma →" data-ru="Заказать →">Buyurtma →</button>
+    </div>
+    <div class="img-placeholder">🎁</div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="categories-wrap" id="categoriesWrap"></div>
+
+  <!-- PRODUCTS -->
+  <div class="section-header">
+    <span class="section-title" id="sectionTitle" data-uz="Barcha taomlar" data-ru="Все блюда">Barcha taomlar</span>
+    <span class="section-count" id="sectionCount"></span>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<!-- ORDERS TAB -->
+<div id="orders-tab" style="display:none">
+  <div class="empty-state" id="ordersEmpty">
+    <div class="empty-icon">🛍️</div>
+    <div class="empty-title" data-uz="Buyurtmalar yo'q" data-ru="Нет заказов">Buyurtmalar yo'q</div>
+    <div class="empty-sub" data-uz="Siz hali buyurtma bermagansiz" data-ru="Вы ещё не делали заказов">Siz hali buyurtma bermagansiz</div>
+  </div>
+  <div id="ordersList" style="padding:12px 16px;display:none"></div>
+</div>
+
+<!-- CART BAR -->
+<div class="cart-bar" id="cartBar">
+  <button class="cart-bar-btn" onclick="openCartSheet()">
+    <div class="cart-bar-left">
+      <div class="cart-bar-count" id="cartBarCount">0</div>
+      <span class="cart-bar-label" data-uz="Savatni ko'rish" data-ru="Смотреть корзину">Savatni ko'rish</span>
+    </div>
+    <span class="cart-bar-price" id="cartBarPrice">0 so'm</span>
+  </button>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- SIZE SHEET -->
+<div class="bottom-sheet" id="sizeSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <span class="sheet-title" data-uz="O'lchamni tanlang" data-ru="Выберите размер">O'lchamni tanlang</span>
+    <button class="sheet-close" onclick="closeSizeSheet()">✕</button>
+  </div>
+  <div class="size-product-info">
+    <div class="size-product-img" id="sizeProductImg">🍔</div>
+    <div>
+      <div class="size-product-name" id="sizeProductName"></div>
+      <div class="size-product-sub" data-uz="O'lchamni tanlang" data-ru="Выберите размер">O'lchamni tanlang</div>
+    </div>
+  </div>
+  <div class="size-list" id="sizeList"></div>
+  <button class="size-cancel" onclick="closeSizeSheet()" data-uz="Bekor qilish" data-ru="Отменить">Bekor qilish</button>
+</div>
+
+<!-- CART SHEET -->
+<div class="bottom-sheet" id="cartSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <span class="sheet-title" data-uz="Savat" data-ru="Корзина">Savat</span>
+    <button class="sheet-close" onclick="closeCartSheet()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItemsList"></div>
+  <div class="cart-total-row">
+    <span class="cart-total-label" data-uz="Jami:" data-ru="Итого:">Jami:</span>
+    <span class="cart-total-price" id="cartTotalPrice">0 so'm</span>
+  </div>
+  <button class="cart-checkout-btn" onclick="openOrderPage()">
+    <span data-uz="Buyurtma berish →" data-ru="Оформить заказ →">Buyurtma berish →</span>
+  </button>
+</div>
+
+<!-- ORDER PAGE -->
+<div class="page" id="orderPage">
+  <div class="page-header">
+    <button class="page-back" onclick="closeOrderPage()">←</button>
+    <span class="page-title" data-uz="Buyurtma berish" data-ru="Оформить заказ">Buyurtma berish</span>
+  </div>
+
+  <div class="order-section">
+    <div class="order-section-label" data-uz="BUYURTMA TARKIBI" data-ru="СОСТАВ ЗАКАЗА">BUYURTMA TARKIBI</div>
+    <div id="orderItemsList"></div>
+    <div class="order-total-row">
+      <span class="order-total-label" data-uz="Jami:" data-ru="Итого:">Jami:</span>
+      <span class="order-total-price" id="orderPageTotal">0 so'm</span>
+    </div>
+  </div>
+
+  <div class="order-section">
+    <div class="order-section-label" data-uz="TELEFON RAQAMI" data-ru="НОМЕР ТЕЛЕФОНА">TELEFON RAQAMI</div>
+    <div class="phone-input-wrap">
+      <span>📱</span>
+      <input type="tel" id="phoneInput" placeholder="+998 90 000 00 00" oninput="validatePhone()"/>
+      <span class="phone-check" id="phoneCheck" style="display:none">✓</span>
+    </div>
+  </div>
+
+  <div class="order-section">
+    <div class="order-section-label" data-uz="BUYURTMA TURI" data-ru="ТИП ЗАКАЗА">BUYURTMA TURI</div>
+    <div class="delivery-options">
+      <div class="delivery-opt selected" id="opt-pickup" onclick="selectDelivery('pickup')">
+        <div class="d-icon">🚶</div>
+        <div class="d-label" data-uz="O'zi olib ketish" data-ru="Самовывоз">O'zi olib ketish</div>
+      </div>
+      <div class="delivery-opt" id="opt-delivery" onclick="selectDelivery('delivery')">
+        <div class="d-icon">🚗</div>
+        <div class="d-label" data-uz="Yetkazish" data-ru="Доставка">Yetkazish</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-section">
+    <div class="order-section-label" data-uz="TO'LOV USULI" data-ru="СПОСОБ ОПЛАТЫ">TO'LOV USULI</div>
+    <div class="payment-opt selected" id="pay-cash" onclick="selectPayment('cash')">
+      <span class="p-icon">💵</span>
+      <span class="p-label" data-uz="Naqd pul" data-ru="Наличные">Naqd pul</span>
+      <span class="p-check">✓</span>
+    </div>
+    <div class="payment-opt" id="pay-click" onclick="selectPayment('click')">
+      <span class="p-icon">💳</span>
+      <span class="p-label">Click</span>
+      <span class="p-check">✓</span>
+    </div>
+    <div class="payment-opt" id="pay-payme" onclick="selectPayment('payme')">
+      <span class="p-icon">📲</span>
+      <span class="p-label">Payme</span>
+      <span class="p-check">✓</span>
+    </div>
+  </div>
+
+  <div class="order-section">
+    <div class="order-section-label" data-uz="IZOH (IXTIYORIY)" data-ru="КОММЕНТАРИЙ (НЕО.)">IZOH (IXTIYORIY)</div>
+    <textarea class="note-input" id="noteInput" data-uz-placeholder="Masalan: tuz kam..." data-ru-placeholder="Например: меньше соли..." placeholder="Masalan: tuz kam..."></textarea>
+  </div>
+
+  <div style="height:120px"></div>
+  <div class="order-bottom">
+    <div class="order-summary-row">
+      <span class="order-summary-label" data-uz="Buyurtma summasi:" data-ru="Сумма заказа:">Buyurtma summasi:</span>
+      <span class="order-summary-price" id="orderBottomTotal">0 so'm</span>
+    </div>
+    <button class="order-submit-btn" id="submitBtn" onclick="submitOrder()">
+      <span data-uz="Buyurtma berish →" data-ru="Оформить заказ →">Buyurtma berish →</span>
+    </button>
+  </div>
+</div>
+
+<!-- SUCCESS PAGE -->
+<div class="success-page" id="successPage">
+  <div class="success-icon">✅</div>
+  <div class="success-title" data-uz="Buyurtma qabul qilindi!" data-ru="Заказ принят!">Buyurtma qabul qilindi!</div>
+  <div class="success-sub" data-uz="Tez orada operator siz bilan bog'lanadi" data-ru="Оператор скоро свяжется с вами">Tez orada operator siz bilan bog'lanadi</div>
+  <div class="success-order-num" id="successOrderNum">#BB0001</div>
+  <div class="success-time">
+    <span>⏱️</span>
+    <div>
+      <span data-uz="Taxminiy vaqt:" data-ru="Примерное время:">Taxminiy vaqt:</span>
+      <strong> 30-45 daqiqa</strong>
+    </div>
+  </div>
+  <button class="success-btn" onclick="closeSuccess()" data-uz="Bosh sahifaga" data-ru="На главную">Bosh sahifaga</button>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PRODUCTS = [
+  {id:'p1',cat:'burgers',name:{uz:'BoomBurger Classic',ru:'BoomBurger Classic'},desc:{uz:'Mol go\'shti kotleti, sous, pomidor, salat',ru:'Котлета из говядины, соус, помидор, салат'},emoji:'🍔',sizes:[{name:{uz:'Oddiy',ru:'Обычный'},price:35000},{name:{uz:'Katta',ru:'Большой'},price:45000}]},
+  {id:'p2',cat:'burgers',name:{uz:'BoomBurger Double',ru:'BoomBurger Double'},desc:{uz:'Ikki qavat kotlet, pishloq, maxsus sous',ru:'Двойная котлета, сыр, фирменный соус'},emoji:'🍔',sizes:[{name:{uz:'Standart',ru:'Стандарт'},price:45000},{name:{uz:'XXL',ru:'XXL'},price:58000}]},
+  {id:'p3',cat:'burgers',name:{uz:'BoomBurger Spicy',ru:'BoomBurger Spicy'},desc:{uz:'Achchiq sous, jalapeno, mol go\'shti',ru:'Острый соус, халапеньо, говядина'},emoji:'🌶️',sizes:[{name:{uz:'Oddiy',ru:'Обычный'},price:38000}]},
+  {id:'p4',cat:'burgers',name:{uz:'Chicken Boom',ru:'Chicken Boom'},desc:{uz:'Tovuq filesi, krem sous, salat, pomidor',ru:'Куриное филе, сливочный соус, салат'},emoji:'🐔',sizes:[{name:{uz:'Oddiy',ru:'Обычный'},price:36000},{name:{uz:'Katta',ru:'Большой'},price:46000}]},
+  {id:'p5',cat:'sides',name:{uz:'Katta kartoshka fri',ru:'Большая картошка фри'},desc:{uz:'Oltin qovurilgan, crispy',ru:'Золотистая, хрустящая'},emoji:'🍟',sizes:[{name:{uz:'Katta',ru:'Большой'},price:15000}]},
+  {id:'p6',cat:'sides',name:{uz:'Kichik kartoshka fri',ru:'Маленькая картошка фри'},desc:{uz:'Oltin qovurilgan, crispy',ru:'Золотистая, хрустящая'},emoji:'🍟',sizes:[{name:{uz:'Kichik',ru:'Маленький'},price:10000}]},
+  {id:'p7',cat:'sides',name:{uz:'Nuggets x6',ru:'Наггетсы x6'},desc:{uz:'Tovuq nuggets, sous bilan',ru:'Куриные наггетсы с соусом'},emoji:'🍗',sizes:[{name:{uz:'6 dona',ru:'6 штук'},price:18000},{name:{uz:'12 dona',ru:'12 штук'},price:32000}]},
+  {id:'p8',cat:'sides',name:{uz:'Onion Rings',ru:'Луковые кольца'},desc:{uz:'Crispy piyoz halqalari',ru:'Хрустящие луковые кольца'},emoji:'🧅',sizes:[{name:{uz:'Standart',ru:'Стандарт'},price:12000}]},
+  {id:'p9',cat:'drinks',name:{uz:'Cola 0.5L',ru:'Кола 0.5L'},desc:{uz:'Sovuq Coca-Cola',ru:'Холодная Coca-Cola'},emoji:'🥤',sizes:[{name:{uz:'0.5L',ru:'0.5L'},price:8000}]},
+  {id:'p10',cat:'drinks',name:{uz:'Limonad',ru:'Лимонад'},desc:{uz:'Limon va nanali ichimlik',ru:'Лимонно-мятный напиток'},emoji:'🍋',sizes:[{name:{uz:'0.5L',ru:'0.5L'},price:10000}]},
+  {id:'p11',cat:'drinks',name:{uz:'Suv 0.5L',ru:'Вода 0.5L'},desc:{uz:'Toza ichimlik suvi',ru:'Чистая питьевая вода'},emoji:'💧',sizes:[{name:{uz:'0.5L',ru:'0.5L'},price:5000}]},
+  {id:'p12',cat:'combo',name:{uz:'BoomSet Classic',ru:'BoomSet Classic'},desc:{uz:'Classic burger + katta fri + Cola',ru:'Classic бургер + большая фри + Кола'},emoji:'🎁',sizes:[{name:{uz:'1 ta set',ru:'1 сет'},price:55000}]},
+  {id:'p13',cat:'combo',name:{uz:'BoomSet Family',ru:'BoomSet Family'},desc:{uz:'2ta burger + 2ta fri + 2ta Cola',ru:'2 бургера + 2 фри + 2 Колы'},emoji:'👨‍👩‍👧',sizes:[{name:{uz:'Family',ru:'Семейный'},price:99000}]},
+];
+
+const CATEGORIES = [
+  {id:'all',label:{uz:'Barchasi',ru:'Все'},emoji:'🍽️'},
+  {id:'burgers',label:{uz:'Burgerlar',ru:'Бургеры'},emoji:'🍔'},
+  {id:'combo',label:{uz:'Setlar',ru:'Сеты'},emoji:'🎁'},
+  {id:'sides',label:{uz:'Qo\'shimcha',ru:'Доп.'},emoji:'🍟'},
+  {id:'drinks',label:{uz:'Ichimlik',ru:'Напитки'},emoji:'🥤'},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let lang = 'uz';
+let activeCat = 'all';
+let cart = [];
+let selectedProduct = null;
+let selectedSize = null;
+let deliveryType = 'pickup';
+let paymentType = 'cash';
+let orders = [];
+let searchQuery = '';
+
+// ============================================================
+// LANG
+// ============================================================
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  document.querySelectorAll('[data-uz]').forEach(el => {
+    const attr = el.getAttribute('data-' + l);
+    if (attr) el.textContent = attr;
+  });
+  document.querySelectorAll('[data-uz-placeholder]').forEach(el => {
+    el.placeholder = el.getAttribute('data-' + l + '-placeholder') || el.getAttribute('data-uz-placeholder');
+  });
+  renderCategories();
+  renderProducts();
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderCategories() {
+  const wrap = document.getElementById('categoriesWrap');
+  wrap.innerHTML = CATEGORIES.map(c => `
+    <div class="cat-item ${activeCat===c.id?'active':''}" onclick="selectCat('${c.id}')">
+      <div class="cat-icon"><span>${c.emoji}</span></div>
+      <div class="cat-label">${c.label[lang]}</div>
+    </div>
+  `).join('');
+}
+
+function renderProducts() {
+  let list = activeCat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeCat);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(p => p.name[lang].toLowerCase().includes(q) || p.desc[lang].toLowerCase().includes(q));
+  }
+  document.getElementById('sectionTitle').textContent = activeCat === 'all'
+    ? (lang==='uz'?'Barcha taomlar':'Все блюда')
+    : CATEGORIES.find(c=>c.id===activeCat)?.label[lang] || '';
+  document.getElementById('sectionCount').textContent = list.length + (lang==='uz'?' ta':' шт');
+
+  const grid = document.getElementById('productsGrid');
+  if (!list.length) {
+    grid.innerHTML = `<div class="no-results" style="grid-column:span 2">${lang==='uz'?'Hech narsa topilmadi 😕':'Ничего не найдено 😕'}</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    const inCart = cart.find(c => c.id === p.id);
+    const minPrice = Math.min(...p.sizes.map(s=>s.price));
+    return `
+      <div class="product-card ${inCart?'in-cart':''}" onclick="openSizeSheet(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+        <div class="product-img-emoji">${p.emoji}</div>
+        <div class="cart-badge">${inCart?inCart.qty:0}</div>
+        <div class="product-info">
+          <div class="product-name">${p.name[lang]}</div>
+          <div class="product-desc">${p.desc[lang]}</div>
+          <div class="product-bottom">
+            <div class="product-price">${lang==='uz'?'dan ':''} ${minPrice.toLocaleString()} so'm</div>
+            <button class="add-btn" onclick="event.stopPropagation();openSizeSheet(${JSON.stringify(p).replace(/"/g,'&quot;')})">+</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectCat(id) {
+  activeCat = id;
+  renderCategories();
+  renderProducts();
+}
+
+function onSearch() {
+  searchQuery = document.getElementById('searchInput').value;
+  renderProducts();
+}
+
+// ============================================================
+// SIZE SHEET
+// ============================================================
+function openSizeSheet(product) {
+  if (typeof product === 'string') product = JSON.parse(product);
+  selectedProduct = product;
+  selectedSize = null;
+  document.getElementById('sizeProductImg').textContent = product.emoji;
+  document.getElementById('sizeProductName').textContent = product.name[lang] || product.name;
+
+  const list = document.getElementById('sizeList');
+  const sizes = product.sizes;
+  list.innerHTML = sizes.map((s,i) => {
+    const name = typeof s.name === 'object' ? s.name[lang] : s.name;
+    return `
+      <div class="size-option ${sizes.length===1?'selected':''}" id="size-opt-${i}" onclick="selectSize(${i})">
+        <span class="size-option-name">${name}</span>
+        <span class="size-option-price">${s.price.toLocaleString()} so'm</span>
+      </div>
+    `;
+  }).join('');
+  if (sizes.length === 1) selectedSize = 0;
+
+  document.getElementById('sizeSheet').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+
+function selectSize(i) {
+  selectedSize = i;
+  document.querySelectorAll('.size-option').forEach((el,j) => el.classList.toggle('selected', j===i));
+  // auto add if only choosing size
+  setTimeout(() => {
+    if (selectedSize !== null) {
+      addToCart();
+      closeSizeSheet();
+    }
+  }, 300);
+}
+
+function closeSizeSheet() {
+  document.getElementById('sizeSheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+function addToCart() {
+  if (!selectedProduct || selectedSize === null) return;
+  const size = selectedProduct.sizes[selectedSize];
+  const sizeName = typeof size.name === 'object' ? size.name[lang] : size.name;
+  const key = selectedProduct.id + '_' + selectedSize;
+  const existing = cart.find(c => c.key === key);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({
+      key, id: selectedProduct.id,
+      name: selectedProduct.name[lang] || selectedProduct.name,
+      emoji: selectedProduct.emoji,
+      sizeName, price: size.price, qty: 1
+    });
+  }
+  updateCartUI();
+}
+
+// ============================================================
+// CART
+// ============================================================
+function updateCartUI() {
+  const total = cart.reduce((s,c)=>s+c.price*c.qty, 0);
+  const count = cart.reduce((s,c)=>s+c.qty, 0);
+  const bar = document.getElementById('cartBar');
+  bar.classList.toggle('visible', cart.length > 0);
+  document.getElementById('cartBarCount').textContent = count;
+  document.getElementById('cartBarPrice').textContent = total.toLocaleString() + ' so\'m';
+  renderProducts();
+}
+
+function openCartSheet() {
+  renderCartSheet();
+  document.getElementById('cartSheet').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+
+function closeCartSheet() {
+  document.getElementById('cartSheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+function renderCartSheet() {
+  const list = document.getElementById('cartItemsList');
+  if (!cart.length) {
+    list.innerHTML = `<div style="padding:30px;text-align:center;color:#aaa">${lang==='uz'?'Savat bo\'sh 😕':'Корзина пуста 😕'}</div>`;
+    document.getElementById('cartTotalPrice').textContent = '0 so\'m';
+    return;
+  }
+  list.innerHTML = cart.map((item,i) => `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-size">${item.sizeName}</div>
+        <div class="cart-item-price">${(item.price*item.qty).toLocaleString()} so'm</div>
+      </div>
+      <div class="qty-controls">
+        <button class="qty-btn qty-minus" onclick="changeQty(${i},-1)">−</button>
+        <span class="qty-num">${item.qty}</span>
+        <button class="qty-btn qty-plus" onclick="changeQty(${i},1)">+</button>
+      </div>
+    </div>
+  `).join('');
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  document.getElementById('cartTotalPrice').textContent = total.toLocaleString() + ' so\'m';
+}
+
+function changeQty(i, delta) {
+  cart[i].qty += delta;
+  if (cart[i].qty <= 0) cart.splice(i, 1);
+  renderCartSheet();
+  updateCartUI();
+}
+
+// ============================================================
+// ORDER PAGE
+// ============================================================
+function openOrderPage() {
+  closeCartSheet();
+  renderOrderPage();
+  document.getElementById('orderPage').classList.add('open');
+}
+
+function closeOrderPage() {
+  document.getElementById('orderPage').classList.remove('open');
+}
+
+function renderOrderPage() {
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  document.getElementById('orderItemsList').innerHTML = cart.map(item => `
+    <div class="order-item-row">
+      <div>
+        <div class="order-item-name">${item.emoji} ${item.name}</div>
+        <div class="order-item-sub">${item.sizeName} × ${item.qty}</div>
+      </div>
+      <div class="order-item-price">${(item.price*item.qty).toLocaleString()}</div>
+    </div>
+  `).join('');
+  document.getElementById('orderPageTotal').textContent = total.toLocaleString() + ' so\'m';
+  document.getElementById('orderBottomTotal').textContent = total.toLocaleString() + ' so\'m';
+}
+
+function validatePhone() {
+  const val = document.getElementById('phoneInput').value.replace(/\D/g,'');
+  const ok = val.length >= 9;
+  document.getElementById('phoneCheck').style.display = ok ? 'block' : 'none';
+}
+
+function selectDelivery(type) {
+  deliveryType = type;
+  document.getElementById('opt-pickup').classList.toggle('selected', type==='pickup');
+  document.getElementById('opt-delivery').classList.toggle('selected', type==='delivery');
+}
+
+function selectPayment(type) {
+  paymentType = type;
+  ['cash','click','payme'].forEach(t => {
+    document.getElementById('pay-'+t).classList.toggle('selected', t===type);
+  });
+}
+
+function submitOrder() {
+  const phone = document.getElementById('phoneInput').value.replace(/\D/g,'');
+  if (phone.length < 9) {
+    document.getElementById('phoneInput').style.borderColor = 'red';
+    document.getElementById('phoneInput').focus();
+    return;
+  }
+  const orderNum = '#BB' + String(Math.floor(Math.random()*9000)+1000);
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  orders.unshift({
+    num: orderNum, items: [...cart], total,
+    delivery: deliveryType, payment: paymentType,
+    phone: document.getElementById('phoneInput').value,
+    note: document.getElementById('noteInput').value,
+    date: new Date().toLocaleString('uz')
+  });
+
+  // Telegram WebApp close or notify
+  if (window.Telegram?.WebApp) {
+    window.Telegram.WebApp.sendData(JSON.stringify({
+      order: orderNum, total, items: cart,
+      delivery: deliveryType, payment: paymentType,
+      phone: document.getElementById('phoneInput').value
+    }));
+  }
+
+  cart = [];
+  updateCartUI();
+  closeOrderPage();
+  document.getElementById('successOrderNum').textContent = orderNum;
+  document.getElementById('successPage').classList.add('show');
+  renderOrdersTab();
+}
+
+function closeSuccess() {
+  document.getElementById('successPage').classList.remove('show');
+  switchTab('menu');
+}
+
+// ============================================================
+// ORDERS TAB
+// ============================================================
+function renderOrdersTab() {
+  if (!orders.length) {
+    document.getElementById('ordersEmpty').style.display = 'flex';
+    document.getElementById('ordersList').style.display = 'none';
+    return;
+  }
+  document.getElementById('ordersEmpty').style.display = 'none';
+  const list = document.getElementById('ordersList');
+  list.style.display = 'block';
+  list.innerHTML = orders.map(o => `
+    <div style="background:#fff;border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-weight:800;font-size:15px;color:#F5C518">${o.num}</span>
+        <span style="font-size:12px;color:#aaa">${o.date}</span>
+      </div>
+      ${o.items.map(i=>`<div style="font-size:13px;color:#555;margin-bottom:2px">${i.emoji} ${i.name} × ${i.qty}</div>`).join('')}
+      <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid #eee">
+        <span style="font-size:13px;color:#888">${o.delivery==='pickup'?(lang==='uz'?"O'zi olib ketish":'Самовывоз'):(lang==='uz'?'Yetkazish':'Доставка')}</span>
+        <span style="font-size:15px;font-weight:800;color:#E53935">${o.total.toLocaleString()} so'm</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchTab(tab) {
+  document.getElementById('menu-tab').style.display = tab==='menu'?'block':'none';
+  document.getElementById('orders-tab').style.display = tab==='orders'?'block':'none';
+  document.getElementById('tab-menu').classList.toggle('active', tab==='menu');
+  document.getElementById('tab-orders').classList.toggle('active', tab==='orders');
+  if (tab==='orders') renderOrdersTab();
+}
+
+function closeAll() {
+  closeSizeSheet();
+  closeCartSheet();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+if (window.Telegram?.WebApp) {
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+}
+
+renderCategories();
+renderProducts();
+</script>
+</body>
+</html>
