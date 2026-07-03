@@ -1,0 +1,828 @@
+!DOCTYPE html
+html lang=uz
+head
+meta charset=UTF-8
+meta name=viewport content=width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no
+titleBoomBurgertitle
+script src=httpstelegram.orgjstelegram-web-app.jsscript
+style
+  {margin0;padding0;box-sizingborder-box;-webkit-tap-highlight-colortransparent}
+  root{
+    --black#1A1A1A;
+    --gold#E53935;
+    --gold-dark#C62828;
+    --cream#242424;
+    --white#FFFFFF;
+    --gray#2C2C2C;
+    --gray2#333333;
+    --text#FFFFFF;
+    --text2#9E9E9E;
+    --red#E53935;
+  }
+  body{font-family'Segoe UI',system-ui,sans-serif;colorvar(--text);min-height100vh;overflow-xhidden;positionrelative;background-color#1A1A1A;background-imageurl('httpskhayrillaev.github.ioBoomBurgervideoframe_2032.png');background-size30%;background-positioncenter top;background-repeatno-repeat;}
+  bodyafter{content'';positionfixed;inset0;backgroundrgba(26,26,26,0.93);z-index0;pointer-eventsnone}
+  body  {positionrelative;z-index1}
+
+   HEADER 
+  .header{background#1E1E1E;padding14px 16px 12px;positionsticky;top0;z-index100}
+  .header-top{displayflex;align-itemscenter;justify-contentspace-between;margin-bottom12px}
+  .logo{displayflex;align-itemscenter;gap10px}
+  .logo-icon{width40px;height40px;backgroundvar(--gold);border-radius10px;displayflex;align-itemscenter;justify-contentcenter;font-size20px}
+  .logo-text{colorvar(--white)}
+  .logo-text strong{font-size18px;font-weight800;letter-spacing0.5px;displayblock}
+  .logo-text span{font-size11px;color#aaa;letter-spacing1px;text-transformuppercase}
+  .lang-switch{displayflex;background#222;border-radius20px;overflowhidden;border1px solid #333}
+  .lang-btn{padding5px 12px;font-size12px;font-weight600;cursorpointer;color#888;transitionall .2s;bordernone;backgroundtransparent}
+  .lang-btn.active{backgroundvar(--gold);colorvar(--black);border-radius20px}
+  .search-bar{background#2C2C2C;border-radius10px;displayflex;align-itemscenter;gap8px;padding9px 12px}
+  .search-bar input{backgroundtransparent;bordernone;outlinenone;colorvar(--white);font-size14px;flex1}
+  .search-bar inputplaceholder{color#666}
+  .search-icon{color#666;font-size16px}
+
+   CONTACT ROW 
+  .contact-row{displaygrid;grid-template-columns1fr 1fr;gap10px;padding12px 16px}
+  .contact-card{background#242424;border-radius12px;padding10px 12px;displayflex;align-itemscenter;gap8px;cursorpointer;box-shadow0 1px 4px rgba(0,0,0,.3)}
+  .contact-card .icon{font-size18px}
+  .contact-card .info{flex1}
+  .contact-card .info .label{font-size11px;colorvar(--text2);font-weight500}
+  .contact-card .info .val{font-size12px;font-weight700;colorvar(--white)}
+
+   TABS 
+  .tabs{displayflex;background#1E1E1E;border-bottom2px solid #333;positionsticky;top80px;z-index99}
+  .tab{flex1;padding12px;text-aligncenter;font-size14px;font-weight600;colorvar(--text2);cursorpointer;border-bottom2px solid transparent;margin-bottom-2px;transitionall .2s}
+  .tab.active{colorvar(--white);border-bottom-colorvar(--red)}
+
+   SPECIAL OFFER 
+  .special-banner{margin12px 16px;background#242424;border-radius16px;overflowhidden;positionrelative;min-height120px;displayflex;align-itemscenter}
+  .special-banner .img{width130px;height120px;object-fitcover;flex-shrink0}
+  .special-banner .img-placeholder{width130px;height120px;backgroundlinear-gradient(135deg,#2a2a2a,#1a1a1a);displayflex;align-itemscenter;justify-contentcenter;font-size48px;flex-shrink0}
+  .special-content{padding14px;flex1}
+  .special-badge{backgroundvar(--red);colorvar(--white);font-size10px;font-weight800;padding3px 8px;border-radius20px;displayinline-block;margin-bottom6px;letter-spacing0.5px}
+  .special-title{colorvar(--white);font-size15px;font-weight800;line-height1.3;margin-bottom4px}
+  .special-desc{color#9E9E9E;font-size11px;margin-bottom8px}
+  .special-price{colorvar(--red);font-size16px;font-weight800}
+  .special-btn{backgroundvar(--red);colorvar(--white);bordernone;padding7px 14px;border-radius20px;font-size12px;font-weight700;cursorpointer;margin-top6px;displayblock}
+
+   CATEGORIES 
+  .categories-wrap{padding0 16px 4px;overflow-xauto;displayflex;gap8px;scrollbar-widthnone}
+  .categories-wrap-webkit-scrollbar{displaynone}
+  .cat-item{displayflex;flex-directioncolumn;align-itemscenter;gap4px;cursorpointer;flex-shrink0}
+  .cat-icon{width52px;height52px;border-radius14px;background#2C2C2C;displayflex;align-itemscenter;justify-contentcenter;font-size22px;box-shadow0 2px 8px rgba(0,0,0,.3);transitionall .2s;border2px solid transparent}
+  .cat-item.active .cat-icon{background#E53935;border-color#E53935}
+  .cat-item.active .cat-icon span{filternone}
+  .cat-label{font-size11px;font-weight600;colorvar(--text2);white-spacenowrap}
+  .cat-item.active .cat-label{colorvar(--white);font-weight700}
+
+   SECTION TITLE 
+  .section-header{displayflex;justify-contentspace-between;align-itemscenter;padding14px 16px 8px}
+  .section-title{font-size16px;font-weight800;colorvar(--white)}
+  .section-count{font-size13px;colorvar(--text2)}
+
+   PRODUCTS GRID 
+  .products-grid{displaygrid;grid-template-columns1fr 1fr;gap10px;padding0 16px;padding-bottom100px}
+  .product-card{background#242424;border-radius16px;overflowhidden;box-shadow0 2px 8px rgba(0,0,0,.3);cursorpointer;positionrelative;transitiontransform .15s}
+  .product-cardactive{transformscale(0.97)}
+  .product-card.in-cart{border2px solid var(--red)}
+  .product-img{width100%;height120px;object-fitcover;background#2C2C2C;displayflex;align-itemscenter;justify-contentcenter;font-size50px}
+  .product-img-emoji{width100%;height120px;displayflex;align-itemscenter;justify-contentcenter;font-size54px;backgroundlinear-gradient(135deg,#2C2C2C,#242424)}
+  .cart-badge{positionabsolute;top8px;right8px;backgroundvar(--red);colorvar(--white);font-size11px;font-weight800;width22px;height22px;border-radius50%;displaynone;align-itemscenter;justify-contentcenter}
+  .product-card.in-cart .cart-badge{displayflex}
+  .product-info{padding10px}
+  .product-name{font-size13px;font-weight700;colorvar(--white);line-height1.3;margin-bottom3px}
+  .product-desc{font-size11px;colorvar(--text2);line-height1.4;margin-bottom8px;display-webkit-box;-webkit-line-clamp2;-webkit-box-orientvertical;overflowhidden}
+  .product-bottom{displayflex;align-itemscenter;justify-contentspace-between}
+  .product-price{font-size13px;font-weight800;colorvar(--red)}
+  .add-btn{width28px;height28px;backgroundvar(--red);colorvar(--white);bordernone;border-radius8px;font-size18px;cursorpointer;displayflex;align-itemscenter;justify-contentcenter;font-weight700;transitionbackground .2s}
+  .add-btnactive{background#C62828;colorvar(--white)}
+
+   BOTTOM CART BAR 
+  .cart-bar{positionfixed;bottom0;left0;right0;padding12px 16px;backgroundtransparent;z-index200;pointer-eventsnone;transformtranslateY(100%);transitiontransform .3s cubic-bezier(.34,1.56,.64,1)}
+  .cart-bar.visible{transformtranslateY(0);pointer-eventsall}
+  .cart-bar-btn{backgroundvar(--red);colorvar(--white);bordernone;border-radius14px;width100%;padding14px 20px;displayflex;align-itemscenter;justify-contentspace-between;cursorpointer;box-shadow0 4px 20px rgba(229,57,53,.4)}
+  .cart-bar-left{displayflex;align-itemscenter;gap10px}
+  .cart-bar-count{backgroundrgba(0,0,0,.3);colorvar(--white);font-size13px;font-weight800;width26px;height26px;border-radius8px;displayflex;align-itemscenter;justify-contentcenter}
+  .cart-bar-label{font-size15px;font-weight700}
+  .cart-bar-price{font-size15px;font-weight800;colorvar(--white)}
+
+   OVERLAY 
+  .overlay{positionfixed;inset0;backgroundrgba(0,0,0,.7);z-index300;opacity0;pointer-eventsnone;transitionopacity .25s}
+  .overlay.visible{opacity1;pointer-eventsall}
+
+   BOTTOM SHEET 
+  .bottom-sheet{positionfixed;bottom0;left0;right0;background#242424;border-radius20px 20px 0 0;z-index400;transformtranslateY(100%);transitiontransform .3s cubic-bezier(.34,1.2,.64,1);max-height85vh;overflow-yauto}
+  .bottom-sheet.open{transformtranslateY(0)}
+  .sheet-handle{width40px;height4px;background#444;border-radius2px;margin12px auto 0}
+  .sheet-header{displayflex;align-itemscenter;justify-contentspace-between;padding16px 16px 0}
+  .sheet-title{font-size17px;font-weight800;colorvar(--white)}
+  .sheet-close{width30px;height30px;background#333;border-radius50%;bordernone;font-size16px;cursorpointer;displayflex;align-itemscenter;justify-contentcenter;colorvar(--text2)}
+
+   SIZE SHEET 
+  .size-product-info{displayflex;align-itemscenter;gap12px;padding12px 16px 16px;border-bottom1px solid #333}
+  .size-product-img{width56px;height56px;border-radius12px;background#333;displayflex;align-itemscenter;justify-contentcenter;font-size30px;flex-shrink0}
+  .size-product-name{font-size15px;font-weight700;colorvar(--white)}
+  .size-product-sub{font-size12px;colorvar(--text2);margin-top2px}
+  .size-list{padding12px 16px}
+  .size-option{displayflex;align-itemscenter;justify-contentspace-between;padding14px 16px;border-radius12px;margin-bottom8px;cursorpointer;border2px solid #333;transitionall .2s}
+  .size-option.selected{border-colorvar(--red);background#2C2C2C}
+  .size-option-name{font-size14px;font-weight600;colorvar(--white)}
+  .size-option-price{font-size14px;font-weight800;colorvar(--red)}
+  .size-cancel{widthcalc(100% - 32px);margin0 16px 20px;padding14px;background#333;colorvar(--text2);bordernone;border-radius12px;font-size15px;font-weight600;cursorpointer}
+
+   CART SHEET 
+  .cart-items{padding12px 16px}
+  .cart-item{displayflex;align-itemscenter;gap12px;padding12px 0;border-bottom1px solid #333}
+  .cart-itemlast-child{border-bottomnone}
+  .cart-item-img{width52px;height52px;border-radius10px;background#333;displayflex;align-itemscenter;justify-contentcenter;font-size26px;flex-shrink0}
+  .cart-item-info{flex1}
+  .cart-item-name{font-size14px;font-weight700;margin-bottom2px;colorvar(--white)}
+  .cart-item-size{font-size12px;colorvar(--text2)}
+  .cart-item-price{font-size13px;font-weight800;colorvar(--red);margin-top4px}
+  .qty-controls{displayflex;align-itemscenter;gap8px;flex-shrink0}
+  .qty-btn{width28px;height28px;border-radius8px;bordernone;font-size16px;font-weight700;cursorpointer;displayflex;align-itemscenter;justify-contentcenter;transitionall .15s}
+  .qty-minus{background#333;colorvar(--white)}
+  .qty-plus{backgroundvar(--red);colorvar(--white)}
+  .qty-num{font-size15px;font-weight700;min-width20px;text-aligncenter;colorvar(--white)}
+  .cart-total-row{displayflex;justify-contentspace-between;align-itemscenter;padding14px 16px;border-top2px solid #333;margin-top4px}
+  .cart-total-label{font-size15px;font-weight600;colorvar(--text2)}
+  .cart-total-price{font-size20px;font-weight800;colorvar(--red)}
+  .cart-checkout-btn{margin0 16px 20px;widthcalc(100% - 32px);backgroundvar(--red);colorvar(--white);bordernone;padding15px;border-radius14px;font-size16px;font-weight700;cursorpointer;displayflex;align-itemscenter;justify-contentcenter;gap8px}
+
+   ORDER PAGE 
+  .page{positionfixed;inset0;background#1A1A1A;z-index500;transformtranslateX(100%);transitiontransform .3s ease;overflow-yauto}
+  .page.open{transformtranslateX(0)}
+  .page-header{background#1E1E1E;padding14px 16px;displayflex;align-itemscenter;gap12px;positionsticky;top0;z-index10}
+  .page-back{width34px;height34px;background#333;border-radius10px;bordernone;colorvar(--white);font-size18px;cursorpointer;displayflex;align-itemscenter;justify-contentcenter}
+  .page-title{font-size17px;font-weight800;colorvar(--white)}
+  .order-section{background#242424;border-radius16px;margin12px 16px;padding16px;box-shadow0 1px 4px rgba(0,0,0,.3)}
+  .order-section-label{font-size11px;font-weight700;colorvar(--text2);letter-spacing1px;text-transformuppercase;margin-bottom12px}
+  .order-item-row{displayflex;justify-contentspace-between;align-itemsflex-start;margin-bottom8px}
+  .order-item-rowlast-child{margin-bottom0}
+  .order-item-name{font-size14px;font-weight600;flex1;colorvar(--white)}
+  .order-item-sub{font-size12px;colorvar(--text2)}
+  .order-item-price{font-size14px;font-weight700;colorvar(--white)}
+  .order-total-row{displayflex;justify-contentspace-between;padding-top12px;border-top1px solid #333;margin-top8px}
+  .order-total-label{font-size15px;font-weight600;colorvar(--white)}
+  .order-total-price{font-size16px;font-weight800;colorvar(--red)}
+  .phone-input-wrap{border2px solid #333;border-radius12px;padding12px 14px;displayflex;align-itemscenter;gap8px;transitionborder-color .2s;background#1A1A1A}
+  .phone-input-wrapfocus-within{border-colorvar(--red)}
+  .phone-input-wrap input{bordernone;outlinenone;font-size15px;font-weight600;flex1;backgroundtransparent;colorvar(--white)}
+  .phone-check{color#43a047;font-size16px}
+  .delivery-options{displaygrid;grid-template-columns1fr 1fr;gap8px}
+  .delivery-opt{padding12px;border-radius12px;border2px solid #333;text-aligncenter;cursorpointer;transitionall .2s}
+  .delivery-opt.selected{border-colorvar(--red);background#2C2C2C}
+  .delivery-opt .d-icon{font-size22px;margin-bottom4px}
+  .delivery-opt .d-label{font-size13px;font-weight700;colorvar(--white)}
+  .payment-opt{displayflex;align-itemscenter;gap12px;padding13px 14px;border-radius12px;border2px solid #333;margin-bottom8px;cursorpointer;transitionall .2s}
+  .payment-optlast-child{margin-bottom0}
+  .payment-opt.selected{border-colorvar(--red);background#2C2C2C}
+  .payment-opt .p-icon{font-size20px}
+  .payment-opt .p-label{font-size14px;font-weight600;flex1;colorvar(--white)}
+  .payment-opt .p-check{colorvar(--red);font-size16px;opacity0}
+  .payment-opt.selected .p-check{opacity1}
+  .note-input{width100%;border2px solid #333;border-radius12px;padding12px 14px;font-size14px;font-familyinherit;resizenone;outlinenone;min-height70px;transitionborder-color .2s;background#1A1A1A;colorvar(--white)}
+  .note-inputfocus{border-colorvar(--red)}
+  .order-bottom{positionsticky;bottom0;padding12px 16px;background#1A1A1A;border-top1px solid #333}
+  .order-summary-row{displayflex;justify-contentspace-between;margin-bottom10px}
+  .order-summary-label{font-size13px;colorvar(--text2)}
+  .order-summary-price{font-size14px;font-weight700;colorvar(--white)}
+  .order-submit-btn{width100%;backgroundvar(--red);colorvar(--white);bordernone;padding15px;border-radius14px;font-size16px;font-weight700;cursorpointer;displayflex;align-itemscenter;justify-contentcenter;gap8px}
+  .order-submit-btndisabled{opacity.5;cursornot-allowed}
+
+   SUCCESS 
+  .success-page{positionfixed;inset0;background#1A1A1A;z-index600;displaynone;flex-directioncolumn;align-itemscenter;justify-contentcenter;padding32px;text-aligncenter}
+  .success-page.show{displayflex}
+  .success-icon{font-size80px;margin-bottom20px;animationbounce .6s ease}
+  @keyframes bounce{0%{transformscale(0)}60%{transformscale(1.2)}100%{transformscale(1)}}
+  .success-title{font-size24px;font-weight800;margin-bottom8px;colorvar(--white)}
+  .success-sub{font-size15px;colorvar(--text2);line-height1.6;margin-bottom8px}
+  .success-order-num{font-size18px;font-weight800;colorvar(--red);margin-bottom24px}
+  .success-time{background#242424;border-radius14px;padding14px 20px;margin-bottom28px;displayflex;align-itemscenter;gap10px;box-shadow0 2px 8px rgba(0,0,0,.3)}
+  .success-time span{font-size14px;colorvar(--text2)}
+  .success-time strong{font-size15px;font-weight700;colorvar(--white)}
+  .success-btn{backgroundvar(--red);colorvar(--white);bordernone;padding15px 40px;border-radius14px;font-size16px;font-weight700;cursorpointer}
+
+   ORDERS TAB 
+  .empty-state{displayflex;flex-directioncolumn;align-itemscenter;justify-contentcenter;padding60px 32px;text-aligncenter}
+  .empty-icon{font-size64px;margin-bottom16px;opacity.4}
+  .empty-title{font-size17px;font-weight700;colorvar(--text2);margin-bottom6px}
+  .empty-sub{font-size14px;color#666}
+
+  .no-results{padding40px;text-aligncenter;colorvar(--text2);font-size15px}
+style
+head
+body
+
+!-- HEADER --
+div class=header
+  div class=header-top
+    div class=logo
+      div class=logo-icon🍔div
+      div class=logo-text
+        strongBoomBurgerstrong
+        spanFast Foodspan
+      div
+    div
+    div class=lang-switch
+      button class=lang-btn active onclick=setLang('uz')UZbutton
+      button class=lang-btn onclick=setLang('ru')RUbutton
+    div
+  div
+  div class=search-bar
+    span class=search-icon🔍span
+    input type=text id=searchInput placeholder=Taom qidiring... oninput=onSearch()
+  div
+div
+
+!-- CONTACT ROW --
+div class=contact-row
+  div class=contact-card
+    span class=icon📞span
+    div class=info
+      div class=label data-uz=Qo'ng'iroq data-ru=ПозвонитьQo'ng'iroqdiv
+      div class=val+998 90 123 45 67div
+    div
+  div
+  div class=contact-card
+    span class=icon📍span
+    div class=info
+      div class=label data-uz=Manzil data-ru=АдресManzildiv
+      div class=val data-uz=Xaritada ko'rish data-ru=На картеXaritada ko'rishdiv
+    div
+  div
+div
+
+!-- TABS --
+div class=tabs
+  div class=tab active onclick=switchTab('menu') id=tab-menu data-uz=Menyu data-ru=МенюMenyudiv
+  div class=tab onclick=switchTab('orders') id=tab-orders data-uz=Buyurtmalarim data-ru=Мои заказыBuyurtmalarimdiv
+div
+
+!-- MENU TAB --
+div id=menu-tab
+  !-- SPECIAL BANNER --
+  div class=special-banner
+    div class=special-content
+      div class=special-badge data-uz=⭐ MAXSUS TAKLIF data-ru=⭐ СПЕЦПРЕДЛОЖЕНИЕ⭐ MAXSUS TAKLIFdiv
+      div class=special-title data-uz=BoomSet (2 ta burger + fri) data-ru=BoomSet (2 бургера + фри)BoomSet (2 ta burger + fri)div
+      div class=special-desc data-uz=Classic x2, katta kartoshka fri data-ru=Classic x2, большая картошка фриClassic x2, katta kartoshka fridiv
+      div class=special-price79,000 so'mdiv
+      button class=special-btn onclick=openSizeSheet({id'set1',name'BoomSet',emoji'🎁',desc'Classic x2, katta kartoshka fri',sizes[{name'1 ta set',price79000}]}) data-uz=Buyurtma → data-ru=Заказать →Buyurtma →button
+    div
+    div class=img-placeholder🎁div
+  div
+
+  !-- CATEGORIES --
+  div class=categories-wrap id=categoriesWrapdiv
+
+  !-- PRODUCTS --
+  div class=section-header
+    span class=section-title id=sectionTitle data-uz=Barcha taomlar data-ru=Все блюдаBarcha taomlarspan
+    span class=section-count id=sectionCountspan
+  div
+  div class=products-grid id=productsGriddiv
+div
+
+!-- ORDERS TAB --
+div id=orders-tab style=displaynone
+  div class=empty-state id=ordersEmpty
+    div class=empty-icon🛍️div
+    div class=empty-title data-uz=Buyurtmalar yo'q data-ru=Нет заказовBuyurtmalar yo'qdiv
+    div class=empty-sub data-uz=Siz hali buyurtma bermagansiz data-ru=Вы ещё не делали заказовSiz hali buyurtma bermagansizdiv
+  div
+  div id=ordersList style=padding12px 16px;displaynonediv
+div
+
+!-- CART BAR --
+div class=cart-bar id=cartBar
+  button class=cart-bar-btn onclick=openCartSheet()
+    div class=cart-bar-left
+      div class=cart-bar-count id=cartBarCount0div
+      span class=cart-bar-label data-uz=Savatni ko'rish data-ru=Смотреть корзинуSavatni ko'rishspan
+    div
+    span class=cart-bar-price id=cartBarPrice0 so'mspan
+  button
+div
+
+!-- OVERLAY --
+div class=overlay id=overlay onclick=closeAll()div
+
+!-- SIZE SHEET --
+div class=bottom-sheet id=sizeSheet
+  div class=sheet-handlediv
+  div class=sheet-header
+    span class=sheet-title data-uz=O'lchamni tanlang data-ru=Выберите размерO'lchamni tanlangspan
+    button class=sheet-close onclick=closeSizeSheet()✕button
+  div
+  div class=size-product-info
+    div class=size-product-img id=sizeProductImg🍔div
+    div
+      div class=size-product-name id=sizeProductNamediv
+      div class=size-product-sub data-uz=O'lchamni tanlang data-ru=Выберите размерO'lchamni tanlangdiv
+    div
+  div
+  div class=size-list id=sizeListdiv
+  button class=size-cancel onclick=closeSizeSheet() data-uz=Bekor qilish data-ru=ОтменитьBekor qilishbutton
+div
+
+!-- CART SHEET --
+div class=bottom-sheet id=cartSheet
+  div class=sheet-handlediv
+  div class=sheet-header
+    span class=sheet-title data-uz=Savat data-ru=КорзинаSavatspan
+    button class=sheet-close onclick=closeCartSheet()✕button
+  div
+  div class=cart-items id=cartItemsListdiv
+  div class=cart-total-row
+    span class=cart-total-label data-uz=Jami data-ru=ИтогоJamispan
+    span class=cart-total-price id=cartTotalPrice0 so'mspan
+  div
+  button class=cart-checkout-btn onclick=openOrderPage()
+    span data-uz=Buyurtma berish → data-ru=Оформить заказ →Buyurtma berish →span
+  button
+div
+
+!-- ORDER PAGE --
+div class=page id=orderPage
+  div class=page-header
+    button class=page-back onclick=closeOrderPage()←button
+    span class=page-title data-uz=Buyurtma berish data-ru=Оформить заказBuyurtma berishspan
+  div
+
+  div class=order-section
+    div class=order-section-label data-uz=BUYURTMA TARKIBI data-ru=СОСТАВ ЗАКАЗАBUYURTMA TARKIBIdiv
+    div id=orderItemsListdiv
+    div class=order-total-row
+      span class=order-total-label data-uz=Jami data-ru=ИтогоJamispan
+      span class=order-total-price id=orderPageTotal0 so'mspan
+    div
+  div
+
+  div class=order-section
+    div class=order-section-label data-uz=TELEFON RAQAMI data-ru=НОМЕР ТЕЛЕФОНАTELEFON RAQAMIdiv
+    div class=phone-input-wrap
+      span📱span
+      input type=tel id=phoneInput placeholder=+998 90 000 00 00 oninput=validatePhone()
+      span class=phone-check id=phoneCheck style=displaynone✓span
+    div
+  div
+
+  div class=order-section
+    div class=order-section-label data-uz=BUYURTMA TURI data-ru=ТИП ЗАКАЗАBUYURTMA TURIdiv
+    div class=delivery-options
+      div class=delivery-opt selected id=opt-pickup onclick=selectDelivery('pickup')
+        div class=d-icon🚶div
+        div class=d-label data-uz=O'zi olib ketish data-ru=СамовывозO'zi olib ketishdiv
+      div
+      div class=delivery-opt id=opt-delivery onclick=selectDelivery('delivery')
+        div class=d-icon🚗div
+        div class=d-label data-uz=Yetkazish data-ru=ДоставкаYetkazishdiv
+      div
+    div
+  div
+
+  div class=order-section
+    div class=order-section-label data-uz=TO'LOV USULI data-ru=СПОСОБ ОПЛАТЫTO'LOV USULIdiv
+    div class=payment-opt selected id=pay-cash onclick=selectPayment('cash')
+      span class=p-icon💵span
+      span class=p-label data-uz=Naqd pul data-ru=НаличныеNaqd pulspan
+      span class=p-check✓span
+    div
+    div class=payment-opt id=pay-click onclick=selectPayment('click')
+      span class=p-icon💳span
+      span class=p-labelClickspan
+      span class=p-check✓span
+    div
+    div class=payment-opt id=pay-payme onclick=selectPayment('payme')
+      span class=p-icon📲span
+      span class=p-labelPaymespan
+      span class=p-check✓span
+    div
+  div
+
+  div class=order-section
+    div class=order-section-label data-uz=IZOH (IXTIYORIY) data-ru=КОММЕНТАРИЙ (НЕО.)IZOH (IXTIYORIY)div
+    textarea class=note-input id=noteInput data-uz-placeholder=Masalan tuz kam... data-ru-placeholder=Например меньше соли... placeholder=Masalan tuz kam...textarea
+  div
+
+  div style=height120pxdiv
+  div class=order-bottom
+    div class=order-summary-row
+      span class=order-summary-label data-uz=Buyurtma summasi data-ru=Сумма заказаBuyurtma summasispan
+      span class=order-summary-price id=orderBottomTotal0 so'mspan
+    div
+    button class=order-submit-btn id=submitBtn onclick=submitOrder()
+      span data-uz=Buyurtma berish → data-ru=Оформить заказ →Buyurtma berish →span
+    button
+  div
+div
+
+!-- SUCCESS PAGE --
+div class=success-page id=successPage
+  div class=success-icon✅div
+  div class=success-title data-uz=Buyurtma qabul qilindi! data-ru=Заказ принят!Buyurtma qabul qilindi!div
+  div class=success-sub data-uz=Tez orada operator siz bilan bog'lanadi data-ru=Оператор скоро свяжется с вамиTez orada operator siz bilan bog'lanadidiv
+  div class=success-order-num id=successOrderNum#BB0001div
+  div class=success-time
+    span⏱️span
+    div
+      span data-uz=Taxminiy vaqt data-ru=Примерное времяTaxminiy vaqtspan
+      strong 30-45 daqiqastrong
+    div
+  div
+  button class=success-btn onclick=closeSuccess() data-uz=Bosh sahifaga data-ru=На главнуюBosh sahifagabutton
+div
+
+script
+ ============================================================
+ DATA
+ ============================================================
+const PRODUCTS = [
+  {id'p1',cat'burgers',name{uz'BoomBurger Classic',ru'BoomBurger Classic'},desc{uz'Mol go'shti kotleti, sous, pomidor, salat',ru'Котлета из говядины, соус, помидор, салат'},emoji'🍔',sizes[{name{uz'Oddiy',ru'Обычный'},price35000},{name{uz'Katta',ru'Большой'},price45000}]},
+  {id'p2',cat'burgers',name{uz'BoomBurger Double',ru'BoomBurger Double'},desc{uz'Ikki qavat kotlet, pishloq, maxsus sous',ru'Двойная котлета, сыр, фирменный соус'},emoji'🍔',sizes[{name{uz'Standart',ru'Стандарт'},price45000},{name{uz'XXL',ru'XXL'},price58000}]},
+  {id'p3',cat'burgers',name{uz'BoomBurger Spicy',ru'BoomBurger Spicy'},desc{uz'Achchiq sous, jalapeno, mol go'shti',ru'Острый соус, халапеньо, говядина'},emoji'🌶️',sizes[{name{uz'Oddiy',ru'Обычный'},price38000}]},
+  {id'p4',cat'burgers',name{uz'Chicken Boom',ru'Chicken Boom'},desc{uz'Tovuq filesi, krem sous, salat, pomidor',ru'Куриное филе, сливочный соус, салат'},emoji'🐔',sizes[{name{uz'Oddiy',ru'Обычный'},price36000},{name{uz'Katta',ru'Большой'},price46000}]},
+  {id'p5',cat'sides',name{uz'Katta kartoshka fri',ru'Большая картошка фри'},desc{uz'Oltin qovurilgan, crispy',ru'Золотистая, хрустящая'},emoji'🍟',sizes[{name{uz'Katta',ru'Большой'},price15000}]},
+  {id'p6',cat'sides',name{uz'Kichik kartoshka fri',ru'Маленькая картошка фри'},desc{uz'Oltin qovurilgan, crispy',ru'Золотистая, хрустящая'},emoji'🍟',sizes[{name{uz'Kichik',ru'Маленький'},price10000}]},
+  {id'p7',cat'sides',name{uz'Nuggets x6',ru'Наггетсы x6'},desc{uz'Tovuq nuggets, sous bilan',ru'Куриные наггетсы с соусом'},emoji'🍗',sizes[{name{uz'6 dona',ru'6 штук'},price18000},{name{uz'12 dona',ru'12 штук'},price32000}]},
+  {id'p8',cat'sides',name{uz'Onion Rings',ru'Луковые кольца'},desc{uz'Crispy piyoz halqalari',ru'Хрустящие луковые кольца'},emoji'🧅',sizes[{name{uz'Standart',ru'Стандарт'},price12000}]},
+  {id'p9',cat'drinks',name{uz'Cola 0.5L',ru'Кола 0.5L'},desc{uz'Sovuq Coca-Cola',ru'Холодная Coca-Cola'},emoji'🥤',sizes[{name{uz'0.5L',ru'0.5L'},price8000}]},
+  {id'p10',cat'drinks',name{uz'Limonad',ru'Лимонад'},desc{uz'Limon va nanali ichimlik',ru'Лимонно-мятный напиток'},emoji'🍋',sizes[{name{uz'0.5L',ru'0.5L'},price10000}]},
+  {id'p11',cat'drinks',name{uz'Suv 0.5L',ru'Вода 0.5L'},desc{uz'Toza ichimlik suvi',ru'Чистая питьевая вода'},emoji'💧',sizes[{name{uz'0.5L',ru'0.5L'},price5000}]},
+  {id'p12',cat'combo',name{uz'BoomSet Classic',ru'BoomSet Classic'},desc{uz'Classic burger + katta fri + Cola',ru'Classic бургер + большая фри + Кола'},emoji'🎁',sizes[{name{uz'1 ta set',ru'1 сет'},price55000}]},
+  {id'p13',cat'combo',name{uz'BoomSet Family',ru'BoomSet Family'},desc{uz'2ta burger + 2ta fri + 2ta Cola',ru'2 бургера + 2 фри + 2 Колы'},emoji'👨‍👩‍👧',sizes[{name{uz'Family',ru'Семейный'},price99000}]},
+];
+
+const CATEGORIES = [
+  {id'all',label{uz'Barchasi',ru'Все'},emoji'🍽️'},
+  {id'burgers',label{uz'Burgerlar',ru'Бургеры'},emoji'🍔'},
+  {id'combo',label{uz'Setlar',ru'Сеты'},emoji'🎁'},
+  {id'sides',label{uz'Qo'shimcha',ru'Доп.'},emoji'🍟'},
+  {id'drinks',label{uz'Ichimlik',ru'Напитки'},emoji'🥤'},
+];
+
+ ============================================================
+ STATE
+ ============================================================
+let lang = 'uz';
+let activeCat = 'all';
+let cart = [];
+let selectedProduct = null;
+let selectedSize = null;
+let deliveryType = 'pickup';
+let paymentType = 'cash';
+let orders = [];
+let searchQuery = '';
+
+ ============================================================
+ LANG
+ ============================================================
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b = b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  document.querySelectorAll('[data-uz]').forEach(el = {
+    const attr = el.getAttribute('data-' + l);
+    if (attr) el.textContent = attr;
+  });
+  document.querySelectorAll('[data-uz-placeholder]').forEach(el = {
+    el.placeholder = el.getAttribute('data-' + l + '-placeholder')  el.getAttribute('data-uz-placeholder');
+  });
+  renderCategories();
+  renderProducts();
+}
+
+ ============================================================
+ RENDER
+ ============================================================
+function renderCategories() {
+  const wrap = document.getElementById('categoriesWrap');
+  wrap.innerHTML = CATEGORIES.map(c = `
+    div class=cat-item ${activeCat===c.id'active'''} onclick=selectCat('${c.id}')
+      div class=cat-iconspan${c.emoji}spandiv
+      div class=cat-label${c.label[lang]}div
+    div
+  `).join('');
+}
+
+function renderProducts() {
+  let list = activeCat === 'all'  PRODUCTS  PRODUCTS.filter(p = p.cat === activeCat);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(p = p.name[lang].toLowerCase().includes(q)  p.desc[lang].toLowerCase().includes(q));
+  }
+  document.getElementById('sectionTitle').textContent = activeCat === 'all'
+     (lang==='uz''Barcha taomlar''Все блюда')
+     CATEGORIES.find(c=c.id===activeCat).label[lang]  '';
+  document.getElementById('sectionCount').textContent = list.length + (lang==='uz'' ta'' шт');
+
+  const grid = document.getElementById('productsGrid');
+  if (!list.length) {
+    grid.innerHTML = `div class=no-results style=grid-columnspan 2${lang==='uz''Hech narsa topilmadi 😕''Ничего не найдено 😕'}div`;
+    return;
+  }
+  grid.innerHTML = list.map(p = {
+    const inCart = cart.find(c = c.id === p.id);
+    const minPrice = Math.min(...p.sizes.map(s=s.price));
+    return `
+      div class=product-card ${inCart'in-cart'''} onclick=openSizeSheet(${JSON.stringify(p).replace(g,'&quot;')})
+        div class=product-img-emoji${p.emoji}div
+        div class=cart-badge${inCartinCart.qty0}div
+        div class=product-info
+          div class=product-name${p.name[lang]}div
+          div class=product-desc${p.desc[lang]}div
+          div class=product-bottom
+            div class=product-price${lang==='uz''dan '''} ${minPrice.toLocaleString()} so'mdiv
+            button class=add-btn onclick=event.stopPropagation();openSizeSheet(${JSON.stringify(p).replace(g,'&quot;')})+button
+          div
+        div
+      div
+    `;
+  }).join('');
+}
+
+function selectCat(id) {
+  activeCat = id;
+  renderCategories();
+  renderProducts();
+}
+
+function onSearch() {
+  searchQuery = document.getElementById('searchInput').value;
+  renderProducts();
+}
+
+ ============================================================
+ SIZE SHEET
+ ============================================================
+function openSizeSheet(product) {
+  if (typeof product === 'string') product = JSON.parse(product);
+  selectedProduct = product;
+  selectedSize = null;
+  document.getElementById('sizeProductImg').textContent = product.emoji;
+  document.getElementById('sizeProductName').textContent = product.name[lang]  product.name;
+
+  const list = document.getElementById('sizeList');
+  const sizes = product.sizes;
+  list.innerHTML = sizes.map((s,i) = {
+    const name = typeof s.name === 'object'  s.name[lang]  s.name;
+    return `
+      div class=size-option ${sizes.length===1'selected'''} id=size-opt-${i} onclick=selectSize(${i})
+        span class=size-option-name${name}span
+        span class=size-option-price${s.price.toLocaleString()} so'mspan
+      div
+    `;
+  }).join('');
+  if (sizes.length === 1) selectedSize = 0;
+
+  document.getElementById('sizeSheet').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+
+function selectSize(i) {
+  selectedSize = i;
+  document.querySelectorAll('.size-option').forEach((el,j) = el.classList.toggle('selected', j===i));
+   auto add if only choosing size
+  setTimeout(() = {
+    if (selectedSize !== null) {
+      addToCart();
+      closeSizeSheet();
+    }
+  }, 300);
+}
+
+function closeSizeSheet() {
+  document.getElementById('sizeSheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+function addToCart() {
+  if (!selectedProduct  selectedSize === null) return;
+  const size = selectedProduct.sizes[selectedSize];
+  const sizeName = typeof size.name === 'object'  size.name[lang]  size.name;
+  const key = selectedProduct.id + '_' + selectedSize;
+  const existing = cart.find(c = c.key === key);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({
+      key, id selectedProduct.id,
+      name selectedProduct.name[lang]  selectedProduct.name,
+      emoji selectedProduct.emoji,
+      sizeName, price size.price, qty 1
+    });
+  }
+  updateCartUI();
+}
+
+ ============================================================
+ CART
+ ============================================================
+function updateCartUI() {
+  const total = cart.reduce((s,c)=s+c.pricec.qty, 0);
+  const count = cart.reduce((s,c)=s+c.qty, 0);
+  const bar = document.getElementById('cartBar');
+  bar.classList.toggle('visible', cart.length  0);
+  document.getElementById('cartBarCount').textContent = count;
+  document.getElementById('cartBarPrice').textContent = total.toLocaleString() + ' so'm';
+  renderProducts();
+}
+
+function openCartSheet() {
+  renderCartSheet();
+  document.getElementById('cartSheet').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+
+function closeCartSheet() {
+  document.getElementById('cartSheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+function renderCartSheet() {
+  const list = document.getElementById('cartItemsList');
+  if (!cart.length) {
+    list.innerHTML = `div style=padding30px;text-aligncenter;color#aaa${lang==='uz''Savat bo'sh 😕''Корзина пуста 😕'}div`;
+    document.getElementById('cartTotalPrice').textContent = '0 so'm';
+    return;
+  }
+  list.innerHTML = cart.map((item,i) = `
+    div class=cart-item
+      div class=cart-item-img${item.emoji}div
+      div class=cart-item-info
+        div class=cart-item-name${item.name}div
+        div class=cart-item-size${item.sizeName}div
+        div class=cart-item-price${(item.priceitem.qty).toLocaleString()} so'mdiv
+      div
+      div class=qty-controls
+        button class=qty-btn qty-minus onclick=changeQty(${i},-1)−button
+        span class=qty-num${item.qty}span
+        button class=qty-btn qty-plus onclick=changeQty(${i},1)+button
+      div
+    div
+  `).join('');
+  const total = cart.reduce((s,c)=s+c.pricec.qty,0);
+  document.getElementById('cartTotalPrice').textContent = total.toLocaleString() + ' so'm';
+}
+
+function changeQty(i, delta) {
+  cart[i].qty += delta;
+  if (cart[i].qty = 0) cart.splice(i, 1);
+  renderCartSheet();
+  updateCartUI();
+}
+
+ ============================================================
+ ORDER PAGE
+ ============================================================
+function openOrderPage() {
+  closeCartSheet();
+  renderOrderPage();
+  document.getElementById('orderPage').classList.add('open');
+}
+
+function closeOrderPage() {
+  document.getElementById('orderPage').classList.remove('open');
+}
+
+function renderOrderPage() {
+  const total = cart.reduce((s,c)=s+c.pricec.qty,0);
+  document.getElementById('orderItemsList').innerHTML = cart.map(item = `
+    div class=order-item-row
+      div
+        div class=order-item-name${item.emoji} ${item.name}div
+        div class=order-item-sub${item.sizeName} × ${item.qty}div
+      div
+      div class=order-item-price${(item.priceitem.qty).toLocaleString()}div
+    div
+  `).join('');
+  document.getElementById('orderPageTotal').textContent = total.toLocaleString() + ' so'm';
+  document.getElementById('orderBottomTotal').textContent = total.toLocaleString() + ' so'm';
+}
+
+function validatePhone() {
+  const val = document.getElementById('phoneInput').value.replace(Dg,'');
+  const ok = val.length = 9;
+  document.getElementById('phoneCheck').style.display = ok  'block'  'none';
+}
+
+function selectDelivery(type) {
+  deliveryType = type;
+  document.getElementById('opt-pickup').classList.toggle('selected', type==='pickup');
+  document.getElementById('opt-delivery').classList.toggle('selected', type==='delivery');
+}
+
+function selectPayment(type) {
+  paymentType = type;
+  ['cash','click','payme'].forEach(t = {
+    document.getElementById('pay-'+t).classList.toggle('selected', t===type);
+  });
+}
+
+function submitOrder() {
+  Debug uchun
+console.log(Yuborilayotgan buyurtma, {
+  order orderNum, 
+  total, 
+  items cart,
+  delivery deliveryType, 
+  payment paymentType,
+  phone document.getElementById('phoneInput').value
+});
+
+if (window.Telegram.WebApp) {
+  window.Telegram.WebApp.sendData(JSON.stringify({
+    order orderNum, 
+    total, 
+    items cart,
+    delivery deliveryType, 
+    payment paymentType,
+    phone document.getElementById('phoneInput').value
+  }));
+  console.log(sendData yuborildi!);
+} else {
+  console.log(Telegram.WebApp topilmadi!);
+}
+  const orderNum = '#BB' + String(Math.floor(Math.random()9000)+1000);
+  const total = cart.reduce((s,c)=s+c.pricec.qty,0);
+  orders.unshift({
+    num orderNum, items [...cart], total,
+    delivery deliveryType, payment paymentType,
+    phone document.getElementById('phoneInput').value,
+    note document.getElementById('noteInput').value,
+    date new Date().toLocaleString('uz')
+  });
+
+   Telegram WebApp close or notify
+  if (window.Telegram.WebApp) {
+    window.Telegram.WebApp.sendData(JSON.stringify({
+      order orderNum, total, items cart,
+      delivery deliveryType, payment paymentType,
+      phone document.getElementById('phoneInput').value
+    }));
+  }
+
+  cart = [];
+  updateCartUI();
+  closeOrderPage();
+  document.getElementById('successOrderNum').textContent = orderNum;
+  document.getElementById('successPage').classList.add('show');
+  renderOrdersTab();
+}
+
+function closeSuccess() {
+  document.getElementById('successPage').classList.remove('show');
+  switchTab('menu');
+}
+
+ ============================================================
+ ORDERS TAB
+ ============================================================
+function renderOrdersTab() {
+  if (!orders.length) {
+    document.getElementById('ordersEmpty').style.display = 'flex';
+    document.getElementById('ordersList').style.display = 'none';
+    return;
+  }
+  document.getElementById('ordersEmpty').style.display = 'none';
+  const list = document.getElementById('ordersList');
+  list.style.display = 'block';
+  list.innerHTML = orders.map(o = `
+    div style=background#fff;border-radius16px;padding16px;margin-bottom10px;box-shadow0 1px 4px rgba(0,0,0,.06)
+      div style=displayflex;justify-contentspace-between;margin-bottom8px
+        span style=font-weight800;font-size15px;color#F5C518${o.num}span
+        span style=font-size12px;color#aaa${o.date}span
+      div
+      ${o.items.map(i=`div style=font-size13px;color#555;margin-bottom2px${i.emoji} ${i.name} × ${i.qty}div`).join('')}
+      div style=displayflex;justify-contentspace-between;margin-top10px;padding-top10px;border-top1px solid #eee
+        span style=font-size13px;color#888${o.delivery==='pickup'(lang==='uz'O'zi olib ketish'Самовывоз')(lang==='uz''Yetkazish''Доставка')}span
+        span style=font-size15px;font-weight800;color#E53935${o.total.toLocaleString()} so'mspan
+      div
+    div
+  `).join('');
+}
+
+function switchTab(tab) {
+  document.getElementById('menu-tab').style.display = tab==='menu''block''none';
+  document.getElementById('orders-tab').style.display = tab==='orders''block''none';
+  document.getElementById('tab-menu').classList.toggle('active', tab==='menu');
+  document.getElementById('tab-orders').classList.toggle('active', tab==='orders');
+  if (tab==='orders') renderOrdersTab();
+}
+
+function closeAll() {
+  closeSizeSheet();
+  closeCartSheet();
+}
+
+ ============================================================
+ INIT
+ ============================================================
+if (window.Telegram.WebApp) {
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+}
+
+renderCategories();
+renderProducts();
+script
+body
+html
