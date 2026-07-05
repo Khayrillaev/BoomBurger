@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BoomBurger Test</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body style="padding:20px;font-family:sans-serif;background:#111;color:white">
+
+<h2>Test Mini App</h2>
+<button onclick="sendTest()" style="padding:15px 30px;font-size:18px;background:#E53935;color:white;border:none;border-radius:12px">
+  Test Buyurtma Yuborish
+</button>
+
+<script>
+function sendTest() {
+  const testData = {
+    order: "TEST-" + Date.now(),
+    total: 65000,
+    items: [{name: "Test Burger", qty: 1, price: 65000}],
+    delivery: "pickup",
+    payment: "cash",
+    phone: "+998901234567"
+  };
+
+  if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.sendData(JSON.stringify(testData));
+    alert("Ma'lumot yuborildi! Terminalni tekshiring.");
+  } else {
+    alert("Telegram WebApp topilmadi. Telegram ichida oching.");
+  }
+}
+
+if (window.Telegram && window.Telegram.WebApp) {
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+}
+</script>
+</body>
+</html>
