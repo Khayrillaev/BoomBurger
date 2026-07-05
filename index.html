@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body style="padding:50px;background:#000;color:white;text-align:center">
+<h2>Simple Test</h2>
+<button onclick="send()" style="padding:20px 40px;font-size:18px;background:red;color:white;border:none;border-radius:10px">Yuborish</button>
+
+<script>
+function send() {
+  if (window.Telegram?.WebApp) {
+    window.Telegram.WebApp.sendData("TEST_MESSAGE");
+    alert("Yuborildi!");
+  } else {
+    alert("Telegram ichida oching!");
+  }
+}
+</script>
+</body>
+</html>
