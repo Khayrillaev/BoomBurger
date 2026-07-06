@@ -163,6 +163,8 @@
   .order-total-row{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #333;margin-top:8px}
   .order-total-label{font-size:15px;font-weight:600;color:var(--white)}
   .order-total-price{font-size:16px;font-weight:800;color:var(--red)}
+  .address-input-wrap{border:2px solid #333;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;transition:border-color .2s;background:#1A1A1A;margin-top:4px}
+  .address-input-wrap:focus-within{border-color:var(--red)}
   .phone-input-wrap{border:2px solid #333;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;transition:border-color .2s;background:#1A1A1A}
   .phone-input-wrap:focus-within{border-color:var(--red)}
   .phone-input-wrap input{border:none;outline:none;font-size:15px;font-weight:600;flex:1;background:transparent;color:var(--white)}
@@ -377,6 +379,21 @@
         <div class="d-icon">🚗</div>
         <div class="d-label" data-uz="Yetkazish" data-ru="Доставка">Yetkazish</div>
       </div>
+    </div>
+  </div>
+
+  <!-- Manzil input - faqat yetkazishda ko'rinadi -->
+  <div class="order-section" id="address-section" style="display:none">
+    <div class="order-section-label" data-uz="YETKAZISH MANZILI" data-ru="АДРЕС ДОСТАВКИ">YETKAZISH MANZILI</div>
+    <div class="address-input-wrap">
+      <span style="font-size:18px">📍</span>
+      <input
+        type="text"
+        id="addressInput"
+        placeholder="Ko'cha, uy raqami..."
+        autocomplete="off"
+        style="border:none;outline:none;font-size:15px;font-weight:500;background:transparent;color:#fff;width:100%;font-family:inherit"
+      />
     </div>
   </div>
 
@@ -709,6 +726,12 @@ function selectDelivery(type) {
   deliveryType = type;
   document.getElementById('opt-pickup').classList.toggle('selected', type==='pickup');
   document.getElementById('opt-delivery').classList.toggle('selected', type==='delivery');
+  // Manzil inputini ko'rsatish/yashirish
+  const addrSection = document.getElementById('address-section');
+  addrSection.style.display = type === 'delivery' ? 'block' : 'none';
+  if (type === 'delivery') {
+    setTimeout(() => document.getElementById('addressInput').focus(), 100);
+  }
 }
 
 function selectPayment(type) {
@@ -724,6 +747,15 @@ async function submitOrder() {
     document.getElementById('phoneInput').style.borderColor = 'red';
     document.getElementById('phoneInput').focus();
     return;
+  }
+  // Yetkazishda manzil majburiy
+  if (deliveryType === 'delivery') {
+    const addr = document.getElementById('addressInput').value.trim();
+    if (!addr) {
+      document.querySelector('.address-input-wrap').style.borderColor = 'var(--red)';
+      document.getElementById('addressInput').focus();
+      return;
+    }
   }
 
   const btn = document.getElementById('submitBtn');
@@ -752,7 +784,9 @@ async function submitOrder() {
       total: total,
       delivery_type: deliveryType,
       payment_type: paymentType,
-      note: document.getElementById('noteInput').value,
+      note: (deliveryType === 'delivery' && document.getElementById('addressInput').value.trim()
+        ? '📍 ' + document.getElementById('addressInput').value.trim() + (document.getElementById('noteInput').value ? '\n' + document.getElementById('noteInput').value : '')
+        : document.getElementById('noteInput').value),
       status: 'new',
     };
     if (shiftId) orderData.shift_id = shiftId;
