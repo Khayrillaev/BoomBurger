@@ -7,59 +7,88 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  /* === DARK TEMA (standart) === */
   :root{
-    --black:#1A1A1A;
-    --gold:#E53935;
-    --gold-dark:#C62828;
-    --cream:#242424;
-    --white:#FFFFFF;
-    --gray:#2C2C2C;
-    --gray2:#333333;
+    --bg:#2D2D2D;
+    --bg2:#3A3A3A;
+    --bg3:#404040;
+    --bg4:#4A4A4A;
+    --header-bg:#303030;
+    --card-bg:#3A3A3A;
+    --input-bg:#383838;
+    --border:#4A4A4A;
     --text:#FFFFFF;
-    --text2:#9E9E9E;
+    --text2:#B0B0B0;
+    --text3:#888888;
     --red:#E53935;
+    --red-dark:#C62828;
+    --shadow:rgba(0,0,0,0.3);
   }
-  body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;background-color:#1A1A1A;background-image:url('https://khayrillaev.github.io/BoomBurger/videoframe_2032.png');background-size:30%;background-position:center top;background-repeat:no-repeat;}
+  /* === LIGHT TEMA === */
+  [data-theme="light"]{
+    --bg:#F5F5F5;
+    --bg2:#FFFFFF;
+    --bg3:#EEEEEE;
+    --bg4:#E0E0E0;
+    --header-bg:#FFFFFF;
+    --card-bg:#FFFFFF;
+    --input-bg:#F0F0F0;
+    --border:#DDDDDD;
+    --text:#1A1A1A;
+    --text2:#555555;
+    --text3:#888888;
+    --red:#E53935;
+    --red-dark:#C62828;
+    --shadow:rgba(0,0,0,0.1);
+  }
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;background-color:var(--bg);background-image:url('https://khayrillaev.github.io/BoomBurger/videoframe_2032.png');background-size:30%;background-position:center top;background-repeat:no-repeat;}
   body::after{content:'';position:fixed;inset:0;background:rgba(26,26,26,0.93);z-index:0;pointer-events:none}
   body > *{position:relative;z-index:1}
 
   /* HEADER */
-  .header{background:#1E1E1E;padding:14px 16px 12px;position:sticky;top:0;z-index:100}
+  .header{background:var(--header-bg);padding:14px 16px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px var(--shadow)}
   .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
   .logo{display:flex;align-items:center;gap:10px}
   .logo-icon{width:40px;height:40px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
   .logo-text{color:var(--white)}
   .logo-text strong{font-size:18px;font-weight:800;letter-spacing:0.5px;display:block}
   .logo-text span{font-size:11px;color:#aaa;letter-spacing:1px;text-transform:uppercase}
-  .lang-switch{display:flex;background:#222;border-radius:20px;overflow:hidden;border:1px solid #333}
-  .lang-btn{padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#888;transition:all .2s;border:none;background:transparent}
+  .theme-toggle{
+    width:34px;height:34px;border-radius:50%;border:none;
+    background:var(--bg3);cursor:pointer;font-size:16px;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;flex-shrink:0
+  }
+  .theme-toggle:active{transform:scale(.92)}
+  .lang-switch{display:flex;background:var(--input-bg);border-radius:20px;overflow:hidden;border:1px solid var(--border)}
+  .lang-btn{padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text3);transition:all .2s;border:none;background:transparent}
   .lang-btn.active{background:var(--gold);color:var(--black);border-radius:20px}
-  .search-bar{background:#2C2C2C;border-radius:10px;display:flex;align-items:center;gap:8px;padding:9px 12px}
+  .search-bar{background:var(--bg3);border-radius:10px;display:flex;align-items:center;gap:8px;padding:9px 12px}
   .search-bar input{background:transparent;border:none;outline:none;color:var(--white);font-size:14px;flex:1}
-  .search-bar input::placeholder{color:#666}
-  .search-icon{color:#666;font-size:16px}
+  .search-bar input::placeholder{color:var(--text3)}
+  .search-icon{color:var(--text3);font-size:16px}
 
   /* CONTACT ROW */
   .contact-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px}
-  .contact-card{background:#242424;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+  .contact-card{background:var(--card-bg);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.3)}
   .contact-card .icon{font-size:18px}
   .contact-card .info{flex:1}
   .contact-card .info .label{font-size:11px;color:var(--text2);font-weight:500}
   .contact-card .info .val{font-size:12px;font-weight:700;color:var(--white)}
 
   /* TABS */
-  .tabs{display:flex;background:#1E1E1E;border-bottom:2px solid #333;position:sticky;top:80px;z-index:99}
+  .tabs{display:flex;background:var(--header-bg);border-bottom:2px solid #333;position:sticky;top:80px;z-index:99}
   .tab{flex:1;padding:12px;text-align:center;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
   .tab.active{color:var(--white);border-bottom-color:var(--red)}
 
   /* SPECIAL OFFER */
-  .special-banner{margin:12px 16px;background:#242424;border-radius:16px;overflow:hidden;position:relative;min-height:120px;display:flex;align-items:center}
+  .special-banner{margin:12px 16px;background:var(--card-bg);border-radius:16px;overflow:hidden;position:relative;min-height:120px;display:flex;align-items:center}
   .special-banner .img{width:130px;height:120px;object-fit:cover;flex-shrink:0}
   .special-banner .img-placeholder{width:130px;height:120px;background:linear-gradient(135deg,#2a2a2a,#1a1a1a);display:flex;align-items:center;justify-content:center;font-size:48px;flex-shrink:0}
   .special-content{padding:14px;flex:1}
   .special-badge{background:var(--red);color:var(--white);font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:6px;letter-spacing:0.5px}
   .special-title{color:var(--white);font-size:15px;font-weight:800;line-height:1.3;margin-bottom:4px}
-  .special-desc{color:#9E9E9E;font-size:11px;margin-bottom:8px}
+  .special-desc{color:var(--text2);font-size:11px;margin-bottom:8px}
   .special-price{color:var(--red);font-size:16px;font-weight:800}
   .special-btn{background:var(--red);color:var(--white);border:none;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;display:block}
 
@@ -67,7 +96,7 @@
   .categories-wrap{padding:0 16px 4px;overflow-x:auto;display:flex;gap:8px;scrollbar-width:none}
   .categories-wrap::-webkit-scrollbar{display:none}
   .cat-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex-shrink:0}
-  .cat-icon{width:52px;height:52px;border-radius:14px;background:#2C2C2C;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,.3);transition:all .2s;border:2px solid transparent}
+  .cat-icon{width:52px;height:52px;border-radius:14px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 8px var(--shadow);transition:all .2s;border:2px solid transparent}
   .cat-item.active .cat-icon{background:#E53935;border-color:#E53935}
   .cat-item.active .cat-icon span{filter:none}
   .cat-label{font-size:11px;font-weight:600;color:var(--text2);white-space:nowrap}
@@ -80,10 +109,12 @@
 
   /* PRODUCTS GRID */
   .products-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;padding-bottom:100px}
-  .product-card{background:#242424;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer;position:relative;transition:transform .15s}
+  .product-card{background:var(--card-bg);border-radius:16px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);cursor:pointer;position:relative;transition:transform .15s}
+  .prod-unavail{opacity:.65}
+  .prod-unavail .product-img-emoji{position:relative}
   .product-card:active{transform:scale(0.97)}
   .product-card.in-cart{border:2px solid var(--red)}
-  .product-img{width:100%;height:120px;object-fit:cover;background:#2C2C2C;display:flex;align-items:center;justify-content:center;font-size:50px}
+  .product-img{width:100%;height:120px;object-fit:cover;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:50px}
   .product-img-emoji{width:100%;height:120px;display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(135deg,#2C2C2C,#242424)}
   .cart-badge{position:absolute;top:8px;right:8px;background:var(--red);color:var(--white);font-size:11px;font-weight:800;width:22px;height:22px;border-radius:50%;display:none;align-items:center;justify-content:center}
   .product-card.in-cart .cart-badge{display:flex}
@@ -109,51 +140,66 @@
   .overlay.visible{opacity:1;pointer-events:all}
 
   /* BOTTOM SHEET */
-  .bottom-sheet{position:fixed;bottom:0;left:0;right:0;background:#242424;border-radius:20px 20px 0 0;z-index:400;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.2,.64,1);max-height:85vh;overflow-y:auto}
+  .bottom-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card-bg);border-radius:20px 20px 0 0;z-index:400;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.2,.64,1);max-height:85vh;overflow-y:auto}
   .bottom-sheet.open{transform:translateY(0)}
   .sheet-handle{width:40px;height:4px;background:#444;border-radius:2px;margin:12px auto 0}
   .sheet-header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 0}
   .sheet-title{font-size:17px;font-weight:800;color:var(--white)}
-  .sheet-close{width:30px;height:30px;background:#333;border-radius:50%;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+  .sheet-close{width:30px;height:30px;background:var(--bg4);border-radius:50%;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)}
 
   /* SIZE SHEET */
-  .size-product-info{display:flex;align-items:center;gap:12px;padding:12px 16px 16px;border-bottom:1px solid #333}
-  .size-product-img{width:56px;height:56px;border-radius:12px;background:#333;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+  .size-product-info{display:flex;align-items:center;gap:12px;padding:12px 16px 16px;border-bottom:1px solid var(--border)}
+  .size-product-img{width:56px;height:56px;border-radius:12px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
   .size-product-name{font-size:15px;font-weight:700;color:var(--white)}
   .size-product-sub{font-size:12px;color:var(--text2);margin-top:2px}
   .size-list{padding:12px 16px}
-  .size-option{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;margin-bottom:8px;cursor:pointer;border:2px solid #333;transition:all .2s}
-  .size-option.selected{border-color:var(--red);background:#2C2C2C}
+  .size-option{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;margin-bottom:8px;cursor:pointer;border:2px solid var(--border);transition:all .2s}
+  .size-option.selected{border-color:var(--red);background:var(--bg3)}
   .size-option-name{font-size:14px;font-weight:600;color:var(--white)}
   .size-option-price{font-size:14px;font-weight:800;color:var(--red)}
-  .size-cancel{width:calc(100% - 32px);margin:0 16px 20px;padding:14px;background:#333;color:var(--text2);border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
+  .size-cancel{width:calc(100% - 32px);margin:0 16px 20px;padding:14px;background:var(--bg4);color:var(--text2);border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
 
   /* CART SHEET */
   .cart-items{padding:12px 16px}
-  .cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #333}
+  .cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
   .cart-item:last-child{border-bottom:none}
-  .cart-item-img{width:52px;height:52px;border-radius:10px;background:#333;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+  .cart-item-img{width:52px;height:52px;border-radius:10px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
   .cart-item-info{flex:1}
   .cart-item-name{font-size:14px;font-weight:700;margin-bottom:2px;color:var(--white)}
   .cart-item-size{font-size:12px;color:var(--text2)}
   .cart-item-price{font-size:13px;font-weight:800;color:var(--red);margin-top:4px}
   .qty-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
   .qty-btn{width:28px;height:28px;border-radius:8px;border:none;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
-  .qty-minus{background:#333;color:var(--white)}
+  .qty-minus{background:var(--bg4);color:var(--white)}
   .qty-plus{background:var(--red);color:var(--white)}
   .qty-num{font-size:15px;font-weight:700;min-width:20px;text-align:center;color:var(--white)}
   .cart-total-row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:2px solid #333;margin-top:4px}
+  .gift-banner{
+    margin:0 14px 10px;padding:10px 14px;
+    background:linear-gradient(135deg,#1b5e20,#2e7d32);
+    border-radius:10px;display:none;align-items:center;gap:10px
+  }
+  .gift-banner.show{display:flex}
+  .gift-banner-icon{font-size:22px;flex-shrink:0}
+  .gift-banner-text{flex:1}
+  .gift-banner-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:2px}
+  .gift-banner-sub{font-size:11px;color:#a5d6a7}
+  .gift-progress-wrap{margin:0 14px 8px;display:none}
+  .gift-progress-wrap.show{display:block}
+  .gift-progress-label{font-size:11px;color:#888;margin-bottom:4px;display:flex;justify-content:space-between}
+  .gift-progress-bar{height:5px;background:#333;border-radius:3px;overflow:hidden}
+  .gift-progress-fill{height:100%;background:#43a047;border-radius:3px;transition:width .4s}
   .cart-total-label{font-size:15px;font-weight:600;color:var(--text2)}
   .cart-total-price{font-size:20px;font-weight:800;color:var(--red)}
   .cart-checkout-btn{margin:0 16px 20px;width:calc(100% - 32px);background:var(--red);color:var(--white);border:none;padding:15px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
 
   /* ORDER PAGE */
-  .page{position:fixed;inset:0;background:#1A1A1A;z-index:500;transform:translateX(100%);transition:transform .3s ease;overflow-y:auto}
+  .page{position:fixed;inset:0;background:var(--bg);z-index:500;transform:translateX(100%);transition:transform .3s ease;overflow-y:auto}
   .page.open{transform:translateX(0)}
-  .page-header{background:#1E1E1E;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
-  .page-back{width:34px;height:34px;background:#333;border-radius:10px;border:none;color:var(--white);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .page-header{background:var(--header-bg);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+  .page-back{width:34px;height:34px;background:var(--bg4);border-radius:10px;border:none;color:var(--white);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .page-title{font-size:17px;font-weight:800;color:var(--white)}
-  .order-section{background:#242424;border-radius:16px;margin:12px 16px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+  .order-section{background:var(--card-bg);border-radius:16px;margin:12px 16px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
   .order-section-label{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
   .order-item-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
   .order-item-row:last-child{margin-bottom:0}
@@ -163,27 +209,27 @@
   .order-total-row{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #333;margin-top:8px}
   .order-total-label{font-size:15px;font-weight:600;color:var(--white)}
   .order-total-price{font-size:16px;font-weight:800;color:var(--red)}
-  .address-input-wrap{border:2px solid #333;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;transition:border-color .2s;background:#1A1A1A;margin-top:4px}
+  .address-input-wrap{border:2px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;transition:border-color .2s;background:var(--bg);margin-top:4px}
   .address-input-wrap:focus-within{border-color:var(--red)}
-  .phone-input-wrap{border:2px solid #333;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;transition:border-color .2s;background:#1A1A1A}
+  .phone-input-wrap{border:2px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;transition:border-color .2s;background:var(--bg)}
   .phone-input-wrap:focus-within{border-color:var(--red)}
   .phone-input-wrap input{border:none;outline:none;font-size:15px;font-weight:600;flex:1;background:transparent;color:var(--white)}
   .phone-check{color:#43a047;font-size:16px}
   .delivery-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .delivery-opt{padding:12px;border-radius:12px;border:2px solid #333;text-align:center;cursor:pointer;transition:all .2s}
-  .delivery-opt.selected{border-color:var(--red);background:#2C2C2C}
+  .delivery-opt{padding:12px;border-radius:12px;border:2px solid var(--border);text-align:center;cursor:pointer;transition:all .2s}
+  .delivery-opt.selected{border-color:var(--red);background:var(--bg3)}
   .delivery-opt .d-icon{font-size:22px;margin-bottom:4px}
   .delivery-opt .d-label{font-size:13px;font-weight:700;color:var(--white)}
-  .payment-opt{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;border:2px solid #333;margin-bottom:8px;cursor:pointer;transition:all .2s}
+  .payment-opt{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;border:2px solid var(--border);margin-bottom:8px;cursor:pointer;transition:all .2s}
   .payment-opt:last-child{margin-bottom:0}
-  .payment-opt.selected{border-color:var(--red);background:#2C2C2C}
+  .payment-opt.selected{border-color:var(--red);background:var(--bg3)}
   .payment-opt .p-icon{font-size:20px}
   .payment-opt .p-label{font-size:14px;font-weight:600;flex:1;color:var(--white)}
   .payment-opt .p-check{color:var(--red);font-size:16px;opacity:0}
   .payment-opt.selected .p-check{opacity:1}
-  .note-input{width:100%;border:2px solid #333;border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;resize:none;outline:none;min-height:70px;transition:border-color .2s;background:#1A1A1A;color:var(--white)}
+  .note-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;resize:none;outline:none;min-height:70px;transition:border-color .2s;background:var(--bg);color:var(--white)}
   .note-input:focus{border-color:var(--red)}
-  .order-bottom{position:sticky;bottom:0;padding:12px 16px;background:#1A1A1A;border-top:1px solid #333}
+  .order-bottom{position:sticky;bottom:0;padding:12px 16px;background:var(--bg);border-top:1px solid #333}
   .order-summary-row{display:flex;justify-content:space-between;margin-bottom:10px}
   .order-summary-label{font-size:13px;color:var(--text2)}
   .order-summary-price{font-size:14px;font-weight:700;color:var(--white)}
@@ -191,14 +237,14 @@
   .order-submit-btn:disabled{opacity:.5;cursor:not-allowed}
 
   /* SUCCESS */
-  .success-page{position:fixed;inset:0;background:#1A1A1A;z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+  .success-page{position:fixed;inset:0;background:var(--bg);z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
   .success-page.show{display:flex}
   .success-icon{font-size:80px;margin-bottom:20px;animation:bounce .6s ease}
   @keyframes bounce{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
   .success-title{font-size:24px;font-weight:800;margin-bottom:8px;color:var(--white)}
   .success-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:8px}
   .success-order-num{font-size:18px;font-weight:800;color:var(--red);margin-bottom:24px}
-  .success-time{background:#242424;border-radius:14px;padding:14px 20px;margin-bottom:28px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .success-time{background:var(--card-bg);border-radius:14px;padding:14px 20px;margin-bottom:28px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px var(--shadow)}
   .success-time span{font-size:14px;color:var(--text2)}
   .success-time strong{font-size:15px;font-weight:700;color:var(--white)}
   .success-btn{background:var(--red);color:var(--white);border:none;padding:15px 40px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer}
@@ -207,7 +253,7 @@
   .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center}
   .empty-icon{font-size:64px;margin-bottom:16px;opacity:.4}
   .empty-title{font-size:17px;font-weight:700;color:var(--text2);margin-bottom:6px}
-  .empty-sub{font-size:14px;color:#666}
+  .empty-sub{font-size:14px;color:var(--text3)}
 
   .no-results{padding:40px;text-align:center;color:var(--text2);font-size:15px}
 </style>
@@ -224,9 +270,16 @@
         <span>Fast Food</span>
       </div>
     </div>
-    <div class="lang-switch">
-      <button class="lang-btn active" onclick="setLang('uz')">UZ</button>
-      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <!-- Tema toggle -->
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Tema">
+        <span id="themeIcon">☀️</span>
+      </button>
+      <!-- Til -->
+      <div class="lang-switch">
+        <button class="lang-btn active" id="langUz" onclick="setLang('uz')">UZ</button>
+        <button class="lang-btn" id="langRu" onclick="setLang('ru')">RU</button>
+      </div>
     </div>
   </div>
   <div class="search-bar">
@@ -334,6 +387,24 @@
     <button class="sheet-close" onclick="closeCartSheet()">✕</button>
   </div>
   <div class="cart-items" id="cartItemsList"></div>
+  <!-- Sovga progressi -->
+  <div class="gift-progress-wrap" id="giftProgress">
+    <div class="gift-progress-label">
+      <span id="giftProgressLabel">🎁 Sovgaga qoldi:</span>
+      <span id="giftProgressAmt"></span>
+    </div>
+    <div class="gift-progress-bar">
+      <div class="gift-progress-fill" id="giftProgressFill" style="width:0%"></div>
+    </div>
+  </div>
+  <!-- Sovga banneri -->
+  <div class="gift-banner" id="giftBanner">
+    <div class="gift-banner-icon">🎁</div>
+    <div class="gift-banner-text">
+      <div class="gift-banner-title" id="giftBannerTitle">Siz sovgaga erishdingiz!</div>
+      <div class="gift-banner-sub" id="giftBannerSub">Bepul taom qo'shiladi</div>
+    </div>
+  </div>
   <div class="cart-total-row">
     <span class="cart-total-label" data-uz="Jami:" data-ru="Итого:">Jami:</span>
     <span class="cart-total-price" id="cartTotalPrice">0 so'm</span>
@@ -392,7 +463,7 @@
         id="addressInput"
         placeholder="Ko'cha, uy raqami..."
         autocomplete="off"
-        style="border:none;outline:none;font-size:15px;font-weight:500;background:transparent;color:#fff;width:100%;font-family:inherit"
+        style="border:none;outline:none;font-size:15px;font-weight:500;background:transparent;color:var(--text);width:100%;font-family:inherit"
       />
     </div>
   </div>
@@ -454,35 +525,94 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 // ============================================================
 // DATA
 // ============================================================
-const PRODUCTS = [
-  {id:'p1',cat:'burgers',name:{uz:'BoomBurger Classic',ru:'BoomBurger Classic'},desc:{uz:'Mol go\'shti kotleti, sous, pomidor, salat',ru:'Котлета из говядины, соус, помидор, салат'},emoji:'🍔',sizes:[{name:{uz:'Oddiy',ru:'Обычный'},price:35000},{name:{uz:'Katta',ru:'Большой'},price:45000}]},
-  {id:'p2',cat:'burgers',name:{uz:'BoomBurger Double',ru:'BoomBurger Double'},desc:{uz:'Ikki qavat kotlet, pishloq, maxsus sous',ru:'Двойная котлета, сыр, фирменный соус'},emoji:'🍔',sizes:[{name:{uz:'Standart',ru:'Стандарт'},price:45000},{name:{uz:'XXL',ru:'XXL'},price:58000}]},
-  {id:'p3',cat:'burgers',name:{uz:'BoomBurger Spicy',ru:'BoomBurger Spicy'},desc:{uz:'Achchiq sous, jalapeno, mol go\'shti',ru:'Острый соус, халапеньо, говядина'},emoji:'🌶️',sizes:[{name:{uz:'Oddiy',ru:'Обычный'},price:38000}]},
-  {id:'p4',cat:'burgers',name:{uz:'Chicken Boom',ru:'Chicken Boom'},desc:{uz:'Tovuq filesi, krem sous, salat, pomidor',ru:'Куриное филе, сливочный соус, салат'},emoji:'🐔',sizes:[{name:{uz:'Oddiy',ru:'Обычный'},price:36000},{name:{uz:'Katta',ru:'Большой'},price:46000}]},
-  {id:'p5',cat:'sides',name:{uz:'Katta kartoshka fri',ru:'Большая картошка фри'},desc:{uz:'Oltin qovurilgan, crispy',ru:'Золотистая, хрустящая'},emoji:'🍟',sizes:[{name:{uz:'Katta',ru:'Большой'},price:15000}]},
-  {id:'p6',cat:'sides',name:{uz:'Kichik kartoshka fri',ru:'Маленькая картошка фри'},desc:{uz:'Oltin qovurilgan, crispy',ru:'Золотистая, хрустящая'},emoji:'🍟',sizes:[{name:{uz:'Kichik',ru:'Маленький'},price:10000}]},
-  {id:'p7',cat:'sides',name:{uz:'Nuggets x6',ru:'Наггетсы x6'},desc:{uz:'Tovuq nuggets, sous bilan',ru:'Куриные наггетсы с соусом'},emoji:'🍗',sizes:[{name:{uz:'6 dona',ru:'6 штук'},price:18000},{name:{uz:'12 dona',ru:'12 штук'},price:32000}]},
-  {id:'p8',cat:'sides',name:{uz:'Onion Rings',ru:'Луковые кольца'},desc:{uz:'Crispy piyoz halqalari',ru:'Хрустящие луковые кольца'},emoji:'🧅',sizes:[{name:{uz:'Standart',ru:'Стандарт'},price:12000}]},
-  {id:'p9',cat:'drinks',name:{uz:'Cola 0.5L',ru:'Кола 0.5L'},desc:{uz:'Sovuq Coca-Cola',ru:'Холодная Coca-Cola'},emoji:'🥤',sizes:[{name:{uz:'0.5L',ru:'0.5L'},price:8000}]},
-  {id:'p10',cat:'drinks',name:{uz:'Limonad',ru:'Лимонад'},desc:{uz:'Limon va nanali ichimlik',ru:'Лимонно-мятный напиток'},emoji:'🍋',sizes:[{name:{uz:'0.5L',ru:'0.5L'},price:10000}]},
-  {id:'p11',cat:'drinks',name:{uz:'Suv 0.5L',ru:'Вода 0.5L'},desc:{uz:'Toza ichimlik suvi',ru:'Чистая питьевая вода'},emoji:'💧',sizes:[{name:{uz:'0.5L',ru:'0.5L'},price:5000}]},
-  {id:'p12',cat:'combo',name:{uz:'BoomSet Classic',ru:'BoomSet Classic'},desc:{uz:'Classic burger + katta fri + Cola',ru:'Classic бургер + большая фри + Кола'},emoji:'🎁',sizes:[{name:{uz:'1 ta set',ru:'1 сет'},price:55000}]},
-  {id:'p13',cat:'combo',name:{uz:'BoomSet Family',ru:'BoomSet Family'},desc:{uz:'2ta burger + 2ta fri + 2ta Cola',ru:'2 бургера + 2 фри + 2 Колы'},emoji:'👨‍👩‍👧',sizes:[{name:{uz:'Family',ru:'Семейный'},price:99000}]},
-];
+// Mahsulotlar va kategoriyalar Supabase dan yuklanadi
+let PRODUCTS = [];
+let CATEGORIES = [{id:'all', label:{uz:'Barchasi', ru:'Все'}, emoji:'🍽️'}];
 
-const CATEGORIES = [
-  {id:'all',label:{uz:'Barchasi',ru:'Все'},emoji:'🍽️'},
-  {id:'burgers',label:{uz:'Burgerlar',ru:'Бургеры'},emoji:'🍔'},
-  {id:'combo',label:{uz:'Setlar',ru:'Сеты'},emoji:'🎁'},
-  {id:'sides',label:{uz:'Qo\'shimcha',ru:'Доп.'},emoji:'🍟'},
-  {id:'drinks',label:{uz:'Ichimlik',ru:'Напитки'},emoji:'🥤'},
-];
+async function loadMenuFromSupabase() {
+  try {
+    // Kategoriyalar
+    const catRes = await fetch(
+      SUPABASE_URL + '/rest/v1/categories?order=sort_order',
+      { headers: {'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY} }
+    );
+    const cats = await catRes.json();
+    if (Array.isArray(cats) && cats.length) {
+      CATEGORIES = [
+        {id:'all', label:{uz:'Barchasi', ru:'Все'}, emoji:'🍽️'},
+        ...cats.map(c => ({
+          id: String(c.id),
+          label: {uz: c.name_uz || c.name_ru, ru: c.name_ru || c.name_uz},
+          emoji: c.emoji || '🍽️',
+          dbId: c.id
+        }))
+      ];
+    }
+
+    // Mahsulotlar (faqat aktiv)
+    const prodRes = await fetch(
+      SUPABASE_URL + '/rest/v1/products?select=*,sizes(*)&is_active=neq.false&order=sort_order',
+      { headers: {'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY} }
+    );
+    const prods = await prodRes.json();
+    if (Array.isArray(prods) && prods.length) {
+      PRODUCTS = prods.map(p => ({
+        id: String(p.id),
+        dbId: p.id,
+        cat: String(p.category_id),
+        name: {uz: p.name_uz || p.name_ru || '', ru: p.name_ru || p.name_uz || ''},
+        desc: {uz: p.desc_uz || p.desc_ru || '', ru: p.desc_ru || p.desc_uz || ''},
+        emoji: p.emoji || '🍔',
+        image_url: p.image_url || '',
+        is_active: p.is_active !== false,
+        sizes: (p.sizes || []).map(s => ({
+          name: {uz: s.name_uz || s.name_ru || '', ru: s.name_ru || s.name_uz || ''},
+          price: s.price || 0
+        }))
+      })).filter(p => p.sizes.length > 0);
+    }
+
+    // Yashirilgan mahsulotlar (ko'rinadi lekin buyurtma berilmaydi)
+    const hiddenRes = await fetch(
+      SUPABASE_URL + '/rest/v1/products?select=*,sizes(*)&is_active=eq.false&order=sort_order',
+      { headers: {'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY} }
+    );
+    const hiddenProds = await hiddenRes.json();
+    if (Array.isArray(hiddenProds) && hiddenProds.length) {
+      const mapped = hiddenProds.map(p => ({
+        id: String(p.id),
+        dbId: p.id,
+        cat: String(p.category_id),
+        name: {uz: p.name_uz || p.name_ru || '', ru: p.name_ru || p.name_uz || ''},
+        desc: {uz: p.desc_uz || p.desc_ru || '', ru: p.desc_ru || p.desc_uz || ''},
+        emoji: p.emoji || '🍔',
+        image_url: p.image_url || '',
+        is_active: false,
+        sizes: (p.sizes || []).map(s => ({
+          name: {uz: s.name_uz || s.name_ru || '', ru: s.name_ru || s.name_uz || ''},
+          price: s.price || 0
+        }))
+      })).filter(p => p.sizes.length > 0);
+      PRODUCTS = [...PRODUCTS, ...mapped];
+      // unavailableIds ni yangilaymiz
+      mapped.forEach(p => unavailableIds.add(String(p.id)));
+    }
+
+  } catch(e) {
+    console.log('Menu yuklashda xato:', e);
+  }
+
+  renderCategories();
+  renderProducts();
+}
 
 // ============================================================
 // STATE
 // ============================================================
 let lang = 'uz';
 let activeCat = 'all';
+let giftRules = [];       // Supabase dan yuklanadi
+let appliedGift = null;   // Hozir qo'llangan sovg'a
 let cart = [];
 let selectedProduct = null;
 let selectedSize = null;
@@ -494,9 +624,103 @@ let searchQuery = '';
 // ============================================================
 // LANG
 // ============================================================
+// ── SOVGA TIZIMI ────────────────────────────
+async function loadGiftRules() {
+  try {
+    const res = await fetch(
+      SUPABASE_URL + '/rest/v1/gift_rules?is_active=eq.true&order=min_amount',
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+    );
+    giftRules = await res.json();
+    if (!Array.isArray(giftRules)) giftRules = [];
+  } catch(e) { giftRules = []; }
+}
+
+// Mahsulot availability ni Supabase dan olamiz
+let unavailableIds = new Set();
+async function loadUnavailableProducts() {
+  try {
+    const res = await fetch(
+      SUPABASE_URL + '/rest/v1/products?is_active=eq.false&select=id',
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+    );
+    const data = await res.json();
+    unavailableIds = new Set((data||[]).map(p => String(p.id)));
+  } catch(e) { unavailableIds = new Set(); }
+}
+
+function checkGift() {
+  const total = cart.reduce((s,c) => s + c.price * c.qty, 0);
+  const progressWrap = document.getElementById('giftProgress');
+  const banner = document.getElementById('giftBanner');
+
+  if (!giftRules.length) {
+    progressWrap.classList.remove('show');
+    banner.classList.remove('show');
+    appliedGift = null;
+    return;
+  }
+
+  // Eng katta mos qoidani topamiz
+  const matched = [...giftRules].reverse().find(r => total >= r.min_amount);
+
+  // Keyingi daraja
+  const nextRule = giftRules.find(r => total < r.min_amount);
+
+  if (matched) {
+    // Sovgaga erishildi
+    banner.classList.add('show');
+    progressWrap.classList.remove('show');
+    document.getElementById('giftBannerTitle').textContent =
+      lang === 'uz'
+        ? `Tabriklaymiz! "${matched.product_name}" bepul!`
+        : `Поздравляем! "${matched.product_name}" бесплатно!`;
+    document.getElementById('giftBannerSub').textContent =
+      lang === 'uz'
+        ? `${matched.min_amount.toLocaleString()} so'mlik buyurtma uchun sovga`
+        : `Подарок за заказ от ${matched.min_amount.toLocaleString()} сум`;
+    appliedGift = matched;
+  } else {
+    banner.classList.remove('show');
+    appliedGift = null;
+  }
+
+  if (nextRule && !matched) {
+    // Progressni ko'rsatamiz
+    progressWrap.classList.add('show');
+    const pct = Math.min(Math.round(total / nextRule.min_amount * 100), 99);
+    const left = nextRule.min_amount - total;
+    document.getElementById('giftProgressFill').style.width = pct + '%';
+    document.getElementById('giftProgressAmt').textContent =
+      left.toLocaleString() + " so'm";
+    document.getElementById('giftProgressLabel').textContent =
+      lang === 'uz'
+        ? `🎁 "${nextRule.product_name}" uchun qoldi:`
+        : `🎁 До подарка "${nextRule.product_name}":`;
+  } else if (!nextRule && !matched) {
+    progressWrap.classList.remove('show');
+  }
+}
+
+// ── TEMA ──────────────────────────────────
+let currentTheme = localStorage.getItem('bb_theme') || 'dark';
+
+function applyTheme(t) {
+  currentTheme = t;
+  localStorage.setItem('bb_theme', t);
+  document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : '');
+  document.getElementById('themeIcon').textContent = t === 'light' ? '🌙' : '☀️';
+}
+
+function toggleTheme() {
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+
 function setLang(l) {
   lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  localStorage.setItem('bb_lang', l);
+  document.getElementById('langUz').classList.toggle('active', l==='uz');
+  document.getElementById('langRu').classList.toggle('active', l==='ru');
   document.querySelectorAll('[data-uz]').forEach(el => {
     const attr = el.getAttribute('data-' + l);
     if (attr) el.textContent = attr;
@@ -540,16 +764,22 @@ function renderProducts() {
   grid.innerHTML = list.map(p => {
     const inCart = cart.find(c => c.id === p.id);
     const minPrice = Math.min(...p.sizes.map(s=>s.price));
+    // Supabase dagi ID bilan moslashtirish (string vs number)
+    const isUnavail = unavailableIds.has(String(p.id)) || unavailableIds.has(p.dbId);
+    const cardClick = isUnavail ? '' : `onclick="openSizeSheet(${JSON.stringify(p).replace(/"/g,'&quot;')})"`;
     return `
-      <div class="product-card ${inCart?'in-cart':''}" onclick="openSizeSheet(${JSON.stringify(p).replace(/"/g,'&quot;')})">
-        <div class="product-img-emoji">${p.emoji}</div>
+      <div class="product-card ${inCart?'in-cart':''} ${isUnavail?'prod-unavail':''}" ${cardClick} style="${isUnavail?'cursor:default;':''}">
+        <div class="product-img-emoji">${p.emoji}${isUnavail?'<div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:22px;border-radius:inherit">🚫</div>':''}</div>
         <div class="cart-badge">${inCart?inCart.qty:0}</div>
         <div class="product-info">
           <div class="product-name">${p.name[lang]}</div>
-          <div class="product-desc">${p.desc[lang]}</div>
+          <div class="product-desc">${isUnavail?(lang==='uz'?'Vaqtincha mavjud emas':'Временно недоступно'):p.desc[lang]}</div>
           <div class="product-bottom">
             <div class="product-price">${lang==='uz'?'dan ':''} ${minPrice.toLocaleString()} so'm</div>
-            <button class="add-btn" onclick="event.stopPropagation();openSizeSheet(${JSON.stringify(p).replace(/"/g,'&quot;')})">+</button>
+            ${isUnavail
+              ? `<button class="add-btn" disabled style="opacity:.4;cursor:not-allowed;background:#999">🚫</button>`
+              : `<button class="add-btn" onclick="event.stopPropagation();openSizeSheet(${JSON.stringify(p).replace(/"/g,'&quot;')})">+</button>`
+            }
           </div>
         </div>
       </div>
@@ -640,7 +870,7 @@ function updateCartUI() {
   const bar = document.getElementById('cartBar');
   bar.classList.toggle('visible', cart.length > 0);
   document.getElementById('cartBarCount').textContent = count;
-  document.getElementById('cartBarPrice').textContent = total.toLocaleString() + ' so\'m';
+  document.getElementById('cartBarPrice').textContent = total.toLocaleString() + " so'm";
   renderProducts();
 }
 
@@ -658,8 +888,10 @@ function closeCartSheet() {
 function renderCartSheet() {
   const list = document.getElementById('cartItemsList');
   if (!cart.length) {
-    list.innerHTML = `<div style="padding:30px;text-align:center;color:#aaa">${lang==='uz'?'Savat bo\'sh 😕':'Корзина пуста 😕'}</div>`;
-    document.getElementById('cartTotalPrice').textContent = '0 so\'m';
+    list.innerHTML = `<div style="padding:30px;text-align:center;color:#aaa">${lang==='uz'?"Savat bo'sh 😕":'Корзина пуста 😕'}</div>`;
+    document.getElementById('cartTotalPrice').textContent = "0 so'm";
+    document.getElementById('giftProgress').classList.remove('show');
+    document.getElementById('giftBanner').classList.remove('show');
     return;
   }
   list.innerHTML = cart.map((item,i) => `
@@ -678,7 +910,8 @@ function renderCartSheet() {
     </div>
   `).join('');
   const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  document.getElementById('cartTotalPrice').textContent = total.toLocaleString() + ' so\'m';
+  document.getElementById('cartTotalPrice').textContent = total.toLocaleString() + " so'm";
+  checkGift();
 }
 
 function changeQty(i, delta) {
@@ -712,8 +945,8 @@ function renderOrderPage() {
       <div class="order-item-price">${(item.price*item.qty).toLocaleString()}</div>
     </div>
   `).join('');
-  document.getElementById('orderPageTotal').textContent = total.toLocaleString() + ' so\'m';
-  document.getElementById('orderBottomTotal').textContent = total.toLocaleString() + ' so\'m';
+  document.getElementById('orderPageTotal').textContent = total.toLocaleString() + " so'm";
+  document.getElementById('orderBottomTotal').textContent = total.toLocaleString() + " so'm";
 }
 
 function validatePhone() {
@@ -784,9 +1017,15 @@ async function submitOrder() {
       total: total,
       delivery_type: deliveryType,
       payment_type: paymentType,
-      note: (deliveryType === 'delivery' && document.getElementById('addressInput').value.trim()
-        ? '📍 ' + document.getElementById('addressInput').value.trim() + (document.getElementById('noteInput').value ? '\n' + document.getElementById('noteInput').value : '')
-        : document.getElementById('noteInput').value),
+      note: (() => {
+        let n = document.getElementById('noteInput').value || '';
+        if (deliveryType === 'delivery') {
+          const addr = document.getElementById('addressInput').value.trim();
+          if (addr) n = '📍 ' + addr + (n ? '\n' + n : '');
+        }
+        if (appliedGift) n = (n ? n + '\n' : '') + '🎁 Sovga: ' + appliedGift.product_name;
+        return n;
+      })(),
       status: 'new',
     };
     if (shiftId) orderData.shift_id = shiftId;
@@ -868,7 +1107,7 @@ function renderOrdersTab() {
       </div>
       ${o.items.map(i=>`<div style="font-size:13px;color:#555;margin-bottom:2px">${i.emoji} ${i.name} × ${i.qty}</div>`).join('')}
       <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid #eee">
-        <span style="font-size:13px;color:#888">${o.delivery==='pickup'?(lang==='uz'?"O'zi olib ketish":'Самовывоз'):(lang==='uz'?'Yetkazish':'Доставка')}</span>
+        <span style="font-size:13px;color:var(--text3)">${o.delivery==='pickup'?(lang==='uz'?"O'zi olib ketish":'Самовывоз'):(lang==='uz'?'Yetkazish':'Доставка')}</span>
         <span style="font-size:15px;font-weight:800;color:#E53935">${o.total.toLocaleString()} so'm</span>
       </div>
     </div>
@@ -896,8 +1135,21 @@ if (window.Telegram?.WebApp) {
   window.Telegram.WebApp.expand();
 }
 
-renderCategories();
-renderProducts();
+// Saqlangan tema va tilni yuklash
+const savedTheme = localStorage.getItem('bb_theme') || 'dark';
+applyTheme(savedTheme);
+
+const savedLang = localStorage.getItem('bb_lang') || 'uz';
+setLang(savedLang);
+
+// Menyu, sovga va yashirilgan mahsulotlarni yuklaymiz
+loadGiftRules();
+// loadUnavailableProducts loadMenuFromSupabase ichida ishlaydi
+loadMenuFromSupabase();
+
+// Loading ko'rsatamiz
+document.getElementById('productsGrid').innerHTML =
+  '<div style="grid-column:span 2;text-align:center;padding:40px;color:var(--text2)">⏳ Menyu yuklanmoqda...</div>';
 </script>
 </body>
 </html>
