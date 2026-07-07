@@ -998,26 +998,12 @@ async function submitOrder() {
   const orderNum = 'BB' + String(Math.floor(Math.random()*9000)+1000);
   const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
 
-  // Supabase ga to'g'ridan-to'g'ri yozish
-  try {
-    // Ochiq smenani topish
-    let shiftId = null;
-    try {
-      const shiftRes = await fetch(`${SUPABASE_URL}/rest/v1/shifts?status=eq.open&order=id.desc&limit=1`, {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-      });
-      const shifts = await shiftRes.json();
-      if (shifts && shifts.length > 0) shiftId = shifts[0].id;
-    } catch(e) { console.log('Shift topishda xato:', e); }
 
-    const orderData = {
-      order_number: orderNum,
-      customer_phone: document.getElementById('phoneInput').value,
-      items: cart,
-      total: total,
-      delivery_type: deliveryType,
-      payment_type: paymentType,
-      note: (() => {
+  // Telegram WebApp ga ham yuborish (admin uchun)
+  if (window.Telegram?.WebApp?.sendData) {
+    try {
+      // Note: manzil + izoh + sovga
+      const noteVal = (() => {
         let n = document.getElementById('noteInput').value || '';
         if (deliveryType === 'delivery') {
           const addr = document.getElementById('addressInput').value.trim();
@@ -1025,40 +1011,12 @@ async function submitOrder() {
         }
         if (appliedGift) n = (n ? n + '\n' : '') + '🎁 Sovga: ' + appliedGift.product_name;
         return n;
-      })(),
-      status: 'new',
-    };
-    if (shiftId) orderData.shift_id = shiftId;
-
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(orderData)
-    });
-
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('Supabase xato:', err);
-    } else {
-      console.log('✅ Buyurtma saqlandi:', orderNum);
-    }
-  } catch(e) {
-    console.error('Buyurtma yuborishda xato:', e);
-  }
-
-  // Telegram WebApp ga ham yuborish (admin uchun)
-  if (window.Telegram?.WebApp?.sendData) {
-    try {
+      })();
       window.Telegram.WebApp.sendData(JSON.stringify({
         order: orderNum, total, items: cart,
         delivery: deliveryType, payment: paymentType,
         phone: document.getElementById('phoneInput').value,
-        note: document.getElementById('noteInput').value
+        note: noteVal
       }));
     } catch(e) { console.log('sendData xato:', e); }
   }
